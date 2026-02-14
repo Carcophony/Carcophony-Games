@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carcophony Garage - Score Your Grid!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2em, 8vw, 4.5em);
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00, #00ffff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.3));
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 1.4em;
+            color: #00ffff;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+        }
+
+        .score-display {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(20, 20, 40, 0.9));
+            border: 3px solid #00ffff;
+            box-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.5),
+                inset 0 0 30px rgba(0, 255, 255, 0.1);
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-display::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(0, 255, 255, 0.1),
+                transparent
+            );
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .score-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2em;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+            margin-bottom: 15px;
+        }
+
+        .score-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5em;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 
+                0 0 20px #00ffff,
+                0 0 40px #00ffff,
+                0 0 60px #00ffff;
+            animation: scorePulse 2s ease-in-out infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes scorePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .score-unit {
+            font-size: 0.35em;
+            color: #ff00ff;
+            margin-left: 10px;
+            text-shadow: 0 0 10px #ff00ff;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 40px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .car-card {
+            position: relative;
+            background: #000;
+            border: 2px solid #00ffff;
+            box-shadow: 
+                0 0 15px rgba(0, 255, 255, 0.3),
+                inset 0 0 15px rgba(0, 255, 255, 0.1);
+            overflow: hidden;
+            aspect-ratio: 4 / 5;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .car-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 
+                0 10px 30px rgba(0, 255, 255, 0.5),
+                inset 0 0 20px rgba(0, 255, 255, 0.2);
+            border-color: #ff00ff;
+        }
+
+        .car-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .new-grid-btn {
+            width: 100%;
+            padding: 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            color: #000;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .new-grid-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .new-grid-btn:hover::before {
+            left: 100%;
+        }
+
+        .new-grid-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 255, 255, 0.7);
+        }
+
+        .new-grid-btn:active {
+            transform: translateY(0);
+        }
+
+        .instructions {
+            background: rgba(0, 255, 255, 0.05);
+            border-left: 4px solid #00ffff;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #ddd;
+            font-weight: 500;
+        }
+
+        .instructions strong {
+            color: #00ffff;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .grid-container {
+                gap: 10px;
+            }
+
+            .score-value {
+                font-size: 3.5em;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CARCOPHONY GARAGE</h1>
+        <div class="subtitle">Score Your Grid</div>
+
+        <div class="instructions">
+            <strong>YOUR MISSION:</strong> Check out your random 3×3 garage! The score shows your total top speed. Screenshot this page and reply to the game tweet with your score to enter!
+        </div>
+
+        <div class="score-display">
+            <div class="score-label">Total Top Speed</div>
+            <div class="score-value">
+                <span id="totalScore">0</span><span class="score-unit">MPH</span>
+            </div>
+        </div>
+
+        <div id="carGrid" class="grid-container"></div>
+
+        <button class="new-grid-btn" onclick="generateNewGrid()">🎲 GENERATE NEW GRID</button>
+    </div>
+
+    <script>
+        // Car Database - all 46 cars with stats
+        const carDatabase = [
+            {id: "ferrari-296-gtb", name: "Ferrari 296 GTB", topSpeed: 205, zeroTo60: 2.9, power: 819},
+            {id: "dodge-viper-acr", name: "Dodge Viper ACR Extreme", topSpeed: 177, zeroTo60: 3.4, power: 645},
+            {id: "spyker-c8", name: "Spyker C8 Laviolette", topSpeed: 186, zeroTo60: 4.5, power: 400},
+            {id: "bmw-m1", name: "BMW M1", topSpeed: 162, zeroTo60: 5.4, power: 277},
+            {id: "lamborghini-murcielago", name: "Lamborghini Murcielago", topSpeed: 205, zeroTo60: 3.5, power: 572},
+            {id: "dodge-charger-hellcat", name: "Dodge Charger SRT Hellcat", topSpeed: 203, zeroTo60: 3.5, power: 797},
+            {id: "lotus-esprit-v8", name: "Lotus Esprit V8", topSpeed: 175, zeroTo60: 4.3, power: 350},
+            {id: "porsche-911-gt2", name: "Porsche 911 GT2", topSpeed: 211, zeroTo60: 2.3, power: 691},
+            {id: "porsche-959", name: "Porsche 959", topSpeed: 197, zeroTo60: 3.6, power: 444},
+            {id: "lotus-emira", name: "Lotus Emira", topSpeed: 180, zeroTo60: 4.2, power: 400},
+            {id: "mazda-rx7", name: "Mazda RX-7 (FD3S) Spirit R", topSpeed: 155, zeroTo60: 4.7, power: 276},
+            {id: "ford-rs200", name: "Ford RS200 Evolution", topSpeed: 169, zeroTo60: 3.7, power: 572},
+            {id: "ford-sierra-cosworth", name: "Ford Sierra Cosworth RS", topSpeed: 149, zeroTo60: 6.2, power: 204},
+            {id: "lamborghini-miura", name: "Lamborghini Miura P400SV", topSpeed: 180, zeroTo60: 6.3, power: 385},
+            {id: "mercedes-190e-evo2", name: "Mercedes-Benz 190E 2.5-16 Evolution II", topSpeed: 155, zeroTo60: 7.1, power: 235},
+            {id: "bmw-m3-e30-evo2", name: "BMW E30 M3 Evolution II", topSpeed: 152, zeroTo60: 6.2, power: 217},
+            {id: "renault-5-turbo", name: "Renault 5 Turbo 2", topSpeed: 124, zeroTo60: 6.5, power: 158},
+            {id: "honda-nsx", name: "Honda NSX", topSpeed: 191, zeroTo60: 3.0, power: 573},
+            {id: "aston-martin-dbx", name: "Aston Martin DBX", topSpeed: 193, zeroTo60: 3.1, power: 697},
+            {id: "bugatti-eb110", name: "Bugatti EB110 Super Sport", topSpeed: 220, zeroTo60: 3.2, power: 603},
+            {id: "renault-twingo", name: "Renault Twingo", topSpeed: 93, zeroTo60: 13.5, power: 60},
+            {id: "jaguar-xe-sv", name: "Jaguar XE SV Project 8", topSpeed: 200, zeroTo60: 3.3, power: 592},
+            {id: "porsche-panamera", name: "Porsche Panamera Turbo S", topSpeed: 192, zeroTo60: 3.6, power: 562},
+            {id: "cadillac-ct5v", name: "Cadillac CT5-V Blackwing", topSpeed: 200, zeroTo60: 3.6, power: 668},
+            {id: "alpine-a110", name: "Alpine A110", topSpeed: 170, zeroTo60: 4.1, power: 296},
+            {id: "mercedes-r63-amg", name: "Mercedes-Benz R63 AMG", topSpeed: 171, zeroTo60: 4.6, power: 503},
+            {id: "aston-martin-rapide", name: "Aston Martin Rapide", topSpeed: 195, zeroTo60: 4.7, power: 558},
+            {id: "mercedes-c63-final", name: "Mercedes-AMG C63 S Coupé Final Edition", topSpeed: 180, zeroTo60: 3.8, power: 503},
+            {id: "alfa-giulia-qv", name: "Alfa Romeo Giulia Quadrifoglio", topSpeed: 191, zeroTo60: 3.8, power: 503},
+            {id: "audi-rs5-v10", name: "Audi RS5 Avant C6 V10", topSpeed: 155, zeroTo60: 4.5, power: 572},
+            {id: "nissan-gtr-nismo", name: "Nissan GT-R Nismo", topSpeed: 196, zeroTo60: 2.5, power: 592},
+            {id: "bmw-m3-competition", name: "BMW M3 Competition", topSpeed: 174, zeroTo60: 4.0, power: 444},
+            {id: "ford-gt40", name: "Ford GT40", topSpeed: 164, zeroTo60: 5.3, power: 335},
+            {id: "ferrari-daytona", name: "Ferrari 365 GTB/4 Daytona Berlinetta", topSpeed: 174, zeroTo60: 5.4, power: 352},
+            {id: "noble-m12", name: "Noble M12 GTO-3R", topSpeed: 170, zeroTo60: 3.6, power: 400},
+            {id: "subaru-wrx-sti", name: "Subaru WRX STI", topSpeed: 155, zeroTo60: 4.6, power: 276},
+            {id: "mitsubishi-evo6", name: "Mitsubishi EVO VI", topSpeed: 150, zeroTo60: 4.4, power: 276},
+            {id: "aston-martin-cygnet", name: "Aston Martin Cygnet", topSpeed: 106, zeroTo60: 11.5, power: 97},
+            {id: "ferrari-f40", name: "Ferrari F40", topSpeed: 201, zeroTo60: 3.8, power: 488},
+            {id: "lamborghini-countach", name: "Lamborghini Countach LP5000 QV", topSpeed: 183, zeroTo60: 4.9, power: 455},
+            {id: "yangwang-u9", name: "Yangwang U9 Xtreme", topSpeed: 308, zeroTo60: 1.9, power: 1300},
+            {id: "koenigsegg-agera", name: "Koenigsegg Agera RS", topSpeed: 278, zeroTo60: 2.8, power: 1360},
+            {id: "citroen-2cv", name: "Citroen 2CV", topSpeed: 71, zeroTo60: 30.0, power: 29},
+            {id: "ford-mustang-gt500", name: "Ford Mustang Shelby GT500", topSpeed: 180, zeroTo60: 3.3, power: 760},
+            {id: "ferrari-ff", name: "Ferrari FF", topSpeed: 208, zeroTo60: 3.7, power: 651},
+            {id: "mclaren-f1", name: "McLaren F1", topSpeed: 240, zeroTo60: 3.2, power: 627}
+        ];
+
+        let currentGrid = [];
+
+        function generateNewGrid() {
+            const shuffled = [...carDatabase].sort(() => Math.random() - 0.5);
+            currentGrid = shuffled.slice(0, 9);
+            
+            const totalScore = currentGrid.reduce((sum, car) => sum + car.topSpeed, 0);
+            animateScore(totalScore);
+            renderGrid();
+        }
+
+        function renderGrid() {
+            const gridElement = document.getElementById('carGrid');
+            gridElement.innerHTML = '';
+            
+            currentGrid.forEach((car, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'car-card';
+                cardDiv.style.animationDelay = `${index * 0.1}s`;
+                
+                const img = document.createElement('img');
+                // Images are in the images/ folder, named by car ID
+                img.src = `images/${car.id}.jpg`;
+                img.alt = car.name;
+                
+                cardDiv.appendChild(img);
+                gridElement.appendChild(cardDiv);
+            });
+        }
+
+        function animateScore(targetScore) {
+            const scoreElement = document.getElementById('totalScore');
+            const duration = 1500;
+            const startTime = performance.now();
+            const startScore = parseInt(scoreElement.textContent) || 0;
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                const currentScore = Math.floor(startScore + (targetScore - startScore) * easeProgress);
+                
+                scoreElement.textContent = currentScore;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    scoreElement.textContent = targetScore;
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        window.addEventListener('load', generateNewGrid);
+    </script>
+</body>
+</html>
