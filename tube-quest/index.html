@@ -34,8 +34,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   border-bottom:3px solid var(--tfl-red);
   padding:8px 12px;
   display:flex;align-items:center;justify-content:space-between;
-  flex-shrink:0;
-  z-index:10;
+  flex-shrink:0;z-index:10;
 }
 #header h1{font-family:var(--font-h);font-size:clamp(22px,5vw,36px);letter-spacing:2px;
   background:linear-gradient(90deg,var(--tfl-red),var(--oyster-teal));
@@ -47,9 +46,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   font-size:clamp(12px,2.5vw,18px);font-weight:900;}
 #btn-fullscreen,#btn-mute,#btn-slow{
   background:var(--surface2);border:2px solid var(--text-dim);color:var(--text);
-  border-radius:10px;padding:6px 10px;font-size:20px;cursor:pointer;
-  transition:all 0.2s;
-}
+  border-radius:10px;padding:6px 10px;font-size:20px;cursor:pointer;transition:all 0.2s;}
 #btn-fullscreen:hover,#btn-mute:hover,#btn-slow:hover{border-color:var(--oyster-teal);transform:scale(1.1);}
 
 /* MAIN */
@@ -57,32 +54,41 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 
 /* LEFT PANEL */
 #left-panel{
-  width:clamp(280px,35vw,420px);
+  width:clamp(270px,33vw,400px);
   background:var(--surface);
   border-right:2px solid var(--surface2);
-  display:flex;flex-direction:column;
-  overflow:hidden;flex-shrink:0;
+  display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;
 }
 #tabs{display:flex;border-bottom:2px solid var(--surface2);}
 .tab{flex:1;padding:10px 4px;text-align:center;font-family:var(--font-h);
-  font-size:clamp(13px,2.5vw,20px);letter-spacing:1px;cursor:pointer;
-  transition:all 0.2s;border-bottom:3px solid transparent;background:none;border-top:none;border-left:none;border-right:none;
-  color:var(--text-dim);}
+  font-size:clamp(12px,2.2vw,18px);letter-spacing:1px;cursor:pointer;
+  transition:all 0.2s;border-bottom:3px solid transparent;
+  background:none;border-top:none;border-left:none;border-right:none;color:var(--text-dim);}
 .tab.active{color:var(--text);border-bottom-color:var(--oyster-teal);}
 .tab:hover{color:var(--text);}
 #panel-content{flex:1;overflow-y:auto;padding:12px;-webkit-overflow-scrolling:touch;}
 #panel-content::-webkit-scrollbar{width:4px;}
-#panel-content::-webkit-scrollbar-track{background:var(--surface);}
 #panel-content::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:2px;}
 
-/* RIGHT PANEL - MAP + GAME */
+/* RIGHT PANEL */
 #right-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
-#map-container{flex:1;position:relative;overflow:hidden;}
+#map-container{flex:1;position:relative;overflow:hidden;background:var(--bg);}
 #tube-map{width:100%;height:100%;}
+
+/* GAME OVERLAY */
 #game-overlay{
   position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(0deg,var(--bg) 0%,rgba(10,14,26,0.95) 70%,transparent 100%);
-  padding:12px;
+  background:linear-gradient(0deg,rgba(10,14,26,0.97) 0%,rgba(10,14,26,0.8) 60%,transparent 100%);
+  padding:10px 12px;
+}
+
+/* STATION TOOLTIP */
+#station-tooltip{
+  position:absolute;
+  background:rgba(0,0,0,0.92);border:2px solid var(--oyster-teal);border-radius:10px;
+  padding:6px 12px;font-size:13px;font-weight:900;color:var(--text);
+  pointer-events:none;z-index:30;white-space:nowrap;
+  transform:translate(-50%,-120%);display:none;
 }
 
 /* MISSION CARD */
@@ -90,106 +96,123 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   background:var(--surface2);border:2px solid var(--tfl-navy);border-radius:16px;
   padding:12px;margin-bottom:10px;
 }
-.mission-card h3{font-family:var(--font-h);font-size:clamp(16px,3vw,24px);letter-spacing:1px;
+.mission-card h3{font-family:var(--font-h);font-size:clamp(15px,2.8vw,22px);letter-spacing:1px;
   color:var(--oyster-teal);margin-bottom:6px;}
-.mission-detail{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.mission-detail{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;}
 .mission-badge{background:var(--surface);border-radius:8px;padding:4px 10px;
-  font-size:clamp(12px,2vw,16px);font-weight:700;}
-.mission-route{font-size:clamp(14px,2.5vw,20px);font-weight:900;
+  font-size:clamp(11px,1.8vw,14px);font-weight:700;}
+.mission-route{font-size:clamp(13px,2.3vw,18px);font-weight:900;
   background:linear-gradient(90deg,var(--tfl-red),var(--elizabeth));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-/* SLOT MACHINE */
-#slots{
-  background:var(--surface2);border:3px solid var(--gold);border-radius:20px;
-  padding:12px;margin-bottom:10px;
-}
-#slots h3{font-family:var(--font-h);font-size:clamp(18px,3.5vw,28px);letter-spacing:2px;
+/* SLOTS */
+#slots{background:var(--surface2);border:3px solid var(--gold);border-radius:20px;
+  padding:12px;margin-bottom:10px;}
+#slots h3{font-family:var(--font-h);font-size:clamp(16px,3vw,26px);letter-spacing:2px;
   color:var(--gold);text-align:center;margin-bottom:10px;}
 #reels{display:flex;gap:8px;justify-content:center;margin-bottom:10px;}
 .reel{
-  width:clamp(70px,18vw,100px);height:clamp(50px,10vh,70px);
+  width:clamp(65px,16vw,95px);height:clamp(48px,9vh,68px);
   background:var(--surface);border:2px solid var(--text-dim);border-radius:12px;
   display:flex;align-items:center;justify-content:center;
   overflow:hidden;position:relative;
-  font-size:clamp(11px,2vw,16px);font-weight:900;text-align:center;
-  transition:all 0.3s;
+  font-size:clamp(10px,1.8vw,15px);font-weight:900;text-align:center;transition:all 0.3s;
 }
 .reel.spinning{animation:reelSpin 0.15s linear infinite;}
 .reel.landed{border-color:var(--gold);animation:reelLand 0.3s ease-out;}
 @keyframes reelSpin{0%{transform:translateY(-4px);}50%{transform:translateY(4px);}100%{transform:translateY(-4px);}}
 @keyframes reelLand{0%{transform:scale(1.15);}100%{transform:scale(1);}}
-.reel-label{font-size:clamp(9px,1.5vw,12px);color:var(--text-dim);text-align:center;margin-bottom:2px;}
+.reel-label{font-size:clamp(8px,1.3vw,11px);color:var(--text-dim);text-align:center;margin-bottom:2px;}
 
 /* BIG BUTTONS */
 .btn-big{
-  width:100%;padding:clamp(12px,3vh,20px) 16px;
+  width:100%;padding:clamp(11px,2.5vh,18px) 16px;
   border-radius:14px;border:none;cursor:pointer;
-  font-family:var(--font-h);font-size:clamp(18px,4vw,30px);
+  font-family:var(--font-h);font-size:clamp(17px,3.5vw,28px);
   letter-spacing:2px;transition:all 0.2s;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  touch-action:manipulation;
+  touch-action:manipulation;margin-bottom:8px;
 }
 .btn-big:active{transform:scale(0.96);}
 .btn-spin{background:linear-gradient(135deg,var(--gold),#FF8C00);color:#000;}
 .btn-spin:hover{filter:brightness(1.1);}
-.btn-build{background:linear-gradient(135deg,var(--tfl-navy),var(--tfl-blue));color:#fff;}
 .btn-travel{background:linear-gradient(135deg,#00A86B,#00C851);color:#fff;}
-.btn-travel:disabled{background:#333;color:#666;cursor:not-allowed;}
-.btn-warn{background:linear-gradient(135deg,var(--warn),#FF4444);color:#fff;}
+.btn-travel:disabled{background:#2A3040;color:#555;cursor:not-allowed;}
 .btn-secondary{background:var(--surface2);color:var(--text);border:2px solid var(--text-dim);}
 .btn-hint{background:linear-gradient(135deg,var(--elizabeth),#9B59B6);color:#fff;}
-.btn-undo{background:linear-gradient(135deg,#666,#888);color:#fff;}
+.btn-undo{background:linear-gradient(135deg,#555,#777);color:#fff;}
 .btn-small{
   padding:8px 14px;border-radius:10px;border:none;cursor:pointer;
-  font-family:var(--font-b);font-size:clamp(13px,2.5vw,18px);font-weight:900;
+  font-family:var(--font-b);font-size:clamp(13px,2.3vw,17px);font-weight:900;
   transition:all 0.2s;touch-action:manipulation;
 }
 .btn-small:active{transform:scale(0.95);}
-#btn-row{display:flex;gap:8px;flex-wrap:wrap;}
+#btn-row{display:flex;gap:8px;margin-bottom:8px;}
 
 /* CARDS */
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(80px,15vw,120px),1fr));gap:8px;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(78px,14vw,115px),1fr));gap:8px;}
 .tube-card{
   border-radius:12px;padding:8px;cursor:pointer;
   transition:all 0.3s;position:relative;overflow:hidden;
-  border:2px solid rgba(255,255,255,0.15);
-  background:var(--card-bg);
+  border:2px solid rgba(255,255,255,0.12);background:var(--card-bg);
 }
-.tube-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.4);}
+.tube-card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,0.35);}
 .tube-card.selected{border-color:var(--gold);box-shadow:0 0 12px var(--gold);}
-.tube-card .card-line{font-family:var(--font-h);font-size:18px;letter-spacing:1px;}
-.tube-card .card-name{font-size:clamp(9px,1.5vw,12px);font-weight:900;margin:4px 0;line-height:1.2;}
-.tube-card .card-stats{font-size:clamp(8px,1.3vw,11px);color:rgba(255,255,255,0.7);}
-.tube-card .card-ability{font-size:clamp(7px,1.2vw,10px);color:rgba(255,255,255,0.6);
-  font-style:italic;margin-top:3px;line-height:1.2;}
-.card-flip{animation:cardFlip 0.6s ease-in-out;}
-@keyframes cardFlip{0%{transform:rotateY(0);}50%{transform:rotateY(90deg);opacity:0;}
-  51%{transform:rotateY(-90deg);}100%{transform:rotateY(0);opacity:1;}}
+.tube-card .card-line{font-family:var(--font-h);font-size:17px;letter-spacing:1px;}
+.tube-card .card-name{font-size:clamp(8px,1.3vw,11px);font-weight:900;margin:3px 0;line-height:1.2;}
+.tube-card .card-stats{font-size:clamp(7px,1.2vw,10px);color:rgba(255,255,255,0.7);}
+.tube-card .card-ability{font-size:clamp(7px,1.1vw,10px);color:rgba(255,255,255,0.55);font-style:italic;margin-top:3px;line-height:1.2;}
 
 /* PB TABLE */
-.pb-table{width:100%;border-collapse:collapse;font-size:clamp(11px,2vw,15px);}
-.pb-table th{background:var(--surface2);padding:8px;text-align:left;font-family:var(--font-h);
-  font-size:clamp(12px,2vw,16px);letter-spacing:1px;border-bottom:2px solid var(--tfl-red);}
-.pb-table td{padding:6px 8px;border-bottom:1px solid var(--surface2);}
+.pb-table{width:100%;border-collapse:collapse;font-size:clamp(10px,1.8vw,14px);}
+.pb-table th{background:var(--surface2);padding:7px;text-align:left;font-family:var(--font-h);
+  font-size:clamp(11px,1.8vw,15px);letter-spacing:1px;border-bottom:2px solid var(--tfl-red);}
+.pb-table td{padding:5px 7px;border-bottom:1px solid var(--surface2);}
 .pb-table tr:hover td{background:var(--surface2);}
 
-/* STATION DOTS ON MAP */
-.station-dot{cursor:pointer;transition:all 0.2s;}
-.station-dot:hover circle{r:8;}
-.station-dot.selected circle{fill:var(--gold)!important;r:9;}
-.station-dot.on-path circle{fill:var(--green)!important;}
-.station-dot.start-station circle{fill:var(--tfl-red)!important;r:10;}
-.station-dot.end-station circle{fill:var(--warn)!important;r:10;}
+/* FARE PREVIEW */
+#fare-preview{
+  background:rgba(30,42,64,0.9);border:2px solid var(--elizabeth);border-radius:12px;
+  padding:8px 12px;margin:6px 0;font-size:clamp(12px,2vw,16px);
+}
+#fare-preview strong{color:var(--elizabeth);}
 
-/* TRAIN ANIMATION */
+/* PATH DISPLAY */
+.path-node{display:inline-flex;align-items:center;gap:3px;margin:2px;
+  background:var(--surface2);border-radius:7px;padding:3px 7px;
+  font-size:clamp(9px,1.6vw,13px);font-weight:900;}
+
+/* HINT BOX */
+#hint-box{background:var(--surface2);border:2px solid var(--elizabeth);border-radius:12px;
+  padding:10px;margin:6px 0;font-size:clamp(12px,1.9vw,16px);display:none;}
+#hint-box.show{display:block;animation:fadeIn 0.3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+
+/* PHASE BANNER */
+#phase-banner{
+  position:absolute;top:10px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,0.88);border:2px solid var(--oyster-teal);border-radius:12px;
+  padding:6px 18px;font-family:var(--font-h);font-size:clamp(13px,2.5vw,20px);
+  letter-spacing:2px;color:var(--oyster-teal);z-index:15;pointer-events:none;
+  white-space:nowrap;
+}
+
+/* TIMER */
+#timer-display{
+  position:absolute;top:10px;right:10px;
+  background:rgba(0,0,0,0.88);border:2px solid var(--tfl-red);border-radius:12px;
+  padding:5px 12px;font-family:var(--font-h);font-size:clamp(18px,3.5vw,28px);
+  color:var(--tfl-red);z-index:15;letter-spacing:2px;
+}
+
+/* TRAIN */
 #train-marker{
-  position:absolute;width:36px;height:20px;
+  position:absolute;width:32px;height:18px;
   background:var(--tfl-red);border-radius:6px;
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;z-index:20;
-  box-shadow:0 0 12px rgba(225,27,34,0.8);
-  transition:left 0.8s ease-in-out, top 0.8s ease-in-out;
+  font-size:14px;z-index:20;
+  box-shadow:0 0 14px rgba(225,27,34,0.9);
+  transition:left 0.7s ease-in-out, top 0.7s ease-in-out;
   pointer-events:none;
 }
 
@@ -198,226 +221,164 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   position:absolute;top:50%;left:50%;
   transform:translate(-50%,-50%) scale(0);
   background:var(--surface2);border:3px solid var(--gold);border-radius:20px;
-  padding:20px 28px;text-align:center;z-index:50;
-  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  min-width:200px;
+  padding:18px 26px;text-align:center;z-index:50;
+  transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);min-width:190px;
 }
 #event-popup.show{transform:translate(-50%,-50%) scale(1);}
-#event-popup h2{font-family:var(--font-h);font-size:clamp(20px,5vw,36px);margin-bottom:8px;}
-#event-popup p{font-size:clamp(14px,2.5vw,20px);margin-bottom:12px;}
+#event-popup h2{font-family:var(--font-h);font-size:clamp(20px,4.5vw,34px);margin-bottom:6px;}
+#event-popup p{font-size:clamp(13px,2.2vw,18px);margin-bottom:10px;}
 
 /* MODAL */
-#modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100;
-  display:flex;align-items:center;justify-content:center;
-  padding:16px;
-}
+#modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:100;
+  display:flex;align-items:center;justify-content:center;padding:16px;}
 #modal-overlay.hidden{display:none;}
-#modal-box{
-  background:var(--surface);border:3px solid var(--tfl-red);border-radius:20px;
-  padding:20px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;
-}
-#modal-box h2{font-family:var(--font-h);font-size:clamp(22px,5vw,36px);letter-spacing:2px;
-  color:var(--tfl-red);margin-bottom:12px;}
-#modal-box p{font-size:clamp(14px,2.5vw,18px);line-height:1.6;margin-bottom:10px;color:var(--text-dim);}
-#modal-box .highlight{color:var(--text);font-weight:900;}
+#modal-box{background:var(--surface);border:3px solid var(--tfl-red);border-radius:20px;
+  padding:20px;max-width:540px;width:100%;max-height:90vh;overflow-y:auto;}
+#modal-box h2{font-family:var(--font-h);font-size:clamp(20px,4.5vw,34px);letter-spacing:2px;
+  color:var(--tfl-red);margin-bottom:10px;}
+#modal-box p{font-size:clamp(13px,2.2vw,17px);line-height:1.6;margin-bottom:10px;color:var(--text-dim);}
 .modal-step{background:var(--surface2);border-radius:12px;padding:10px 14px;margin-bottom:8px;
-  font-size:clamp(14px,2.5vw,18px);line-height:1.5;}
+  font-size:clamp(13px,2.2vw,17px);line-height:1.5;}
 .modal-step em{color:var(--oyster-teal);font-style:normal;font-weight:900;}
 
-/* WIN/LOSE */
-#result-screen{
-  position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:90;
-  display:flex;align-items:center;justify-content:center;
-  padding:16px;
-}
+/* RESULT */
+#result-screen{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:90;
+  display:flex;align-items:center;justify-content:center;padding:16px;}
 #result-screen.hidden{display:none;}
-#result-box{
-  background:var(--surface);border:4px solid var(--gold);border-radius:24px;
-  padding:24px;max-width:480px;width:100%;text-align:center;
-}
-#result-box h2{font-family:var(--font-h);font-size:clamp(28px,7vw,48px);letter-spacing:3px;margin-bottom:8px;}
-.result-stat{font-size:clamp(16px,3vw,22px);margin:6px 0;font-weight:700;}
-.result-score{font-family:var(--font-h);font-size:clamp(40px,10vw,72px);color:var(--gold);}
-.result-cards{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+#result-box{background:var(--surface);border:4px solid var(--gold);border-radius:24px;
+  padding:22px;max-width:460px;width:100%;text-align:center;}
+#result-box h2{font-family:var(--font-h);font-size:clamp(26px,6.5vw,44px);letter-spacing:3px;margin-bottom:6px;}
+.result-stat{font-size:clamp(15px,2.8vw,20px);margin:5px 0;font-weight:700;}
+.result-score{font-family:var(--font-h);font-size:clamp(38px,9vw,68px);color:var(--gold);}
+.result-cards{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0;}
 
 /* GALLERY */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(85px,1fr));gap:6px;}
 .gallery-slot{aspect-ratio:0.7;border-radius:10px;background:var(--surface2);
   border:2px dashed var(--text-dim);display:flex;align-items:center;justify-content:center;
-  font-size:24px;color:var(--text-dim);}
-
-/* PHASE INDICATORS */
-#phase-banner{
-  position:absolute;top:8px;left:50%;transform:translateX(-50%);
-  background:rgba(0,0,0,0.85);border:2px solid var(--oyster-teal);border-radius:12px;
-  padding:6px 16px;font-family:var(--font-h);font-size:clamp(14px,3vw,22px);
-  letter-spacing:2px;color:var(--oyster-teal);z-index:15;pointer-events:none;
-  transition:all 0.3s;
-}
-
-/* TIMER */
-#timer-display{
-  position:absolute;top:8px;right:8px;
-  background:rgba(0,0,0,0.85);border:2px solid var(--tfl-red);border-radius:12px;
-  padding:6px 14px;font-family:var(--font-h);font-size:clamp(20px,4vw,32px);
-  color:var(--tfl-red);z-index:15;letter-spacing:2px;
-}
-
-/* FARE PREVIEW */
-#fare-preview{
-  background:var(--surface);border:2px solid var(--elizabeth);border-radius:12px;
-  padding:10px;margin:8px 0;
-  font-size:clamp(13px,2.5vw,18px);
-}
-#fare-preview strong{color:var(--elizabeth);}
-
-/* PROGRESS BAR */
-.progress-bar{background:var(--surface2);border-radius:99px;height:8px;overflow:hidden;margin:4px 0;}
-.progress-fill{height:100%;border-radius:99px;transition:width 0.5s ease;
-  background:linear-gradient(90deg,var(--oyster-teal),var(--tfl-blue));}
-
-/* SCROLL HINT */
-.scroll-fade{background:linear-gradient(180deg,transparent,var(--surface));
-  height:20px;position:sticky;bottom:0;pointer-events:none;}
-
-/* MARKET */
+  font-size:22px;color:var(--text-dim);}
+.milestone-badge{background:linear-gradient(135deg,var(--gold),#FF8C00);color:#000;
+  border-radius:12px;padding:7px 12px;margin-bottom:7px;
+  font-size:clamp(11px,1.8vw,15px);font-weight:900;display:flex;align-items:center;gap:7px;}
 .market-card{background:var(--surface2);border-radius:14px;padding:10px;margin-bottom:8px;
-  display:flex;align-items:center;gap:10px;border:2px solid transparent;cursor:pointer;
-  transition:all 0.2s;}
+  display:flex;align-items:center;gap:10px;border:2px solid transparent;cursor:pointer;transition:all 0.2s;}
 .market-card:hover{border-color:var(--gold);}
 .market-card-info{flex:1;}
-.market-card-info h4{font-size:clamp(13px,2.5vw,18px);font-weight:900;}
-.market-card-info p{font-size:clamp(11px,2vw,14px);color:var(--text-dim);}
-.market-price{font-family:var(--font-h);font-size:clamp(16px,3vw,24px);color:var(--gold);}
+.market-card-info h4{font-size:clamp(12px,2.2vw,16px);font-weight:900;}
+.market-card-info p{font-size:clamp(10px,1.8vw,13px);color:var(--text-dim);}
+.market-price{font-family:var(--font-h);font-size:clamp(15px,2.8vw,22px);color:var(--gold);}
+.progress-bar{background:var(--surface2);border-radius:99px;height:7px;overflow:hidden;margin:4px 0;}
+.progress-fill{height:100%;border-radius:99px;transition:width 0.5s ease;
+  background:linear-gradient(90deg,var(--oyster-teal),var(--tfl-blue));}
+#share-code{margin-top:8px;}
 
-/* PATH DISPLAY */
-.path-node{display:inline-flex;align-items:center;gap:4px;margin:2px;
-  background:var(--surface2);border-radius:8px;padding:3px 8px;
-  font-size:clamp(10px,1.8vw,14px);font-weight:900;}
-
-/* MILESTONE BADGE */
-.milestone-badge{
-  background:linear-gradient(135deg,var(--gold),#FF8C00);color:#000;
-  border-radius:12px;padding:8px 12px;margin-bottom:8px;
-  font-size:clamp(12px,2vw,16px);font-weight:900;
-  display:flex;align-items:center;gap:8px;
+/* DIRECTION PICKER */
+#direction-picker{
+  background:var(--surface2);border:2px solid var(--gold);border-radius:14px;
+  padding:10px;margin:8px 0;display:none;
 }
+#direction-picker h4{font-family:var(--font-h);font-size:18px;color:var(--gold);margin-bottom:8px;text-align:center;}
+#direction-picker .dir-btns{display:flex;gap:8px;}
+.dir-btn{flex:1;padding:10px;border-radius:10px;border:2px solid var(--text-dim);
+  background:var(--surface);color:var(--text);cursor:pointer;font-family:var(--font-h);
+  font-size:16px;letter-spacing:1px;transition:all 0.2s;text-align:center;}
+.dir-btn:hover,.dir-btn.selected{border-color:var(--gold);background:var(--surface2);color:var(--gold);}
 
-/* HINT BOX */
-#hint-box{
-  background:var(--surface2);border:2px solid var(--elizabeth);border-radius:12px;
-  padding:10px;margin:8px 0;font-size:clamp(13px,2vw,17px);
-  display:none;
-}
-#hint-box.show{display:block;animation:fadeIn 0.3s ease;}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
-
-/* MOBILE PORTRAIT HANDLING */
+/* MOBILE */
 @media(max-width:600px){
-  #left-panel{width:100%;border-right:none;border-bottom:2px solid var(--surface2);
-    max-height:50vh;min-height:0;}
+  #left-panel{width:100%;border-right:none;border-bottom:2px solid var(--surface2);max-height:52vh;min-height:0;}
   #main{flex-direction:column;}
-  #map-container{min-height:200px;}
 }
-@media(orientation:landscape) and (max-height:500px){
-  #header{padding:4px 8px;}
-  #header h1{font-size:20px;}
-}
-
-/* ACCESSIBILITY */
-.sr-only{position:absolute;left:-9999px;}
 button:focus-visible{outline:3px solid var(--oyster-teal);outline-offset:2px;}
 
 /* LOADING */
 #loading{position:fixed;inset:0;background:var(--bg);z-index:200;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
-#loading h1{font-family:var(--font-h);font-size:clamp(32px,8vw,60px);letter-spacing:4px;
+#loading h1{font-family:var(--font-h);font-size:clamp(30px,7vw,56px);letter-spacing:4px;
   background:linear-gradient(90deg,var(--tfl-red),var(--elizabeth));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 .loading-bar{width:200px;height:6px;background:var(--surface2);border-radius:99px;overflow:hidden;}
 .loading-fill{height:100%;background:linear-gradient(90deg,var(--tfl-red),var(--oyster-teal));
   animation:loadPulse 1.2s ease-in-out infinite;}
 @keyframes loadPulse{0%{width:0%;margin-left:0;}50%{width:70%;margin-left:15%;}100%{width:0%;margin-left:100%;}}
+
+/* MAP PAN/ZOOM */
+#map-container{cursor:grab;}
+#map-container:active{cursor:grabbing;}
 </style>
 </head>
 <body>
 
-<!-- Loading Screen -->
 <div id="loading">
   <h1>🚇 TUBE QUEST</h1>
-  <p style="font-size:18px;color:var(--text-dim)">Loading the Underground...</p>
+  <p style="font-size:17px;color:var(--text-dim)">Loading the Underground...</p>
   <div class="loading-bar"><div class="loading-fill"></div></div>
+  <p style="font-size:13px;color:var(--text-dim)">v2 · Clean Map Edition</p>
 </div>
 
-<!-- Main App -->
 <div id="app" style="display:none">
-  <!-- Header -->
   <div id="header">
     <h1>🚇 TUBE QUEST</h1>
     <div id="oyster-bar">
       <div class="oyster-chip" id="oyster-display">🃏 £20.00</div>
       <div class="streak-chip" id="streak-display">🔥 0</div>
       <button class="btn-secondary btn-small" id="btn-slow" title="Slow Mode">🐢</button>
-      <button class="btn-secondary btn-small" id="btn-mute" title="Mute Sounds">🔊</button>
+      <button class="btn-secondary btn-small" id="btn-mute" title="Mute">🔊</button>
       <button class="btn-secondary btn-small" id="btn-fullscreen" title="Fullscreen">⛶</button>
     </div>
   </div>
 
-  <!-- Main -->
   <div id="main">
-    <!-- LEFT PANEL -->
+    <!-- LEFT -->
     <div id="left-panel">
       <div id="tabs">
         <button class="tab active" onclick="showTab('game')" id="tab-game">🎮 PLAY</button>
         <button class="tab" onclick="showTab('cards')" id="tab-cards">🃏 DECK</button>
-        <button class="tab" onclick="showTab('scores')" id="tab-scores">🏆 SCORES</button>
-        <button class="tab" onclick="showTab('gallery')" id="tab-gallery">📖 GALLERY</button>
+        <button class="tab" onclick="showTab('scores')" id="tab-scores">🏆 PBs</button>
+        <button class="tab" onclick="showTab('gallery')" id="tab-gallery">📖 ALL</button>
       </div>
       <div id="panel-content">
+
         <!-- GAME TAB -->
         <div id="tab-content-game">
-          <!-- Mission -->
           <div id="mission-card" class="mission-card">
             <h3>🎰 SPIN FOR MISSION</h3>
-            <p style="color:var(--text-dim);font-size:14px">Press SPIN to begin your Tube Quest!</p>
+            <p style="color:var(--text-dim);font-size:13px">Press SPIN to begin your Tube Quest!</p>
           </div>
 
-          <!-- Slots -->
           <div id="slots">
             <h3>🎰 MISSION SLOT</h3>
             <div id="reels">
-              <div>
-                <div class="reel-label">START</div>
-                <div class="reel" id="reel-start">🚇<br><span style="font-size:10px">???</span></div>
-              </div>
-              <div>
-                <div class="reel-label">END</div>
-                <div class="reel" id="reel-end">🏁<br><span style="font-size:10px">???</span></div>
-              </div>
-              <div>
-                <div class="reel-label">GOAL</div>
-                <div class="reel" id="reel-goal">🎯<br><span style="font-size:10px">???</span></div>
-              </div>
+              <div><div class="reel-label">START</div>
+                <div class="reel" id="reel-start">🚇<br><span style="font-size:9px">???</span></div></div>
+              <div><div class="reel-label">END</div>
+                <div class="reel" id="reel-end">🏁<br><span style="font-size:9px">???</span></div></div>
+              <div><div class="reel-label">GOAL</div>
+                <div class="reel" id="reel-goal">🎯<br><span style="font-size:9px">???</span></div></div>
             </div>
             <button class="btn-big btn-spin" id="btn-spin" onclick="spinMission()">
               🎰 SPIN! (£20 BET)
             </button>
           </div>
 
-          <!-- Hint -->
           <div id="hint-box">💡 <span id="hint-text">...</span></div>
 
-          <!-- Action Buttons -->
-          <div id="btn-row" style="margin-bottom:8px">
+          <div id="btn-row">
             <button class="btn-small btn-hint" onclick="showHint()" style="flex:1">💡 HINT</button>
-            <button class="btn-small btn-undo" onclick="undoLastStation()" style="flex:1" id="btn-undo-act">↩ UNDO</button>
+            <button class="btn-small btn-undo" onclick="undoLastStation()" style="flex:1">↩ UNDO</button>
           </div>
 
-          <!-- Build -->
+          <div id="direction-picker">
+            <h4>🔄 WHICH WAY ROUND?</h4>
+            <div class="dir-btns">
+              <div class="dir-btn" id="dir-cw" onclick="setDirection('cw')">↻ CLOCKWISE</div>
+              <div class="dir-btn" id="dir-acw" onclick="setDirection('acw')">↺ ANTI-CLOCK</div>
+            </div>
+          </div>
+
           <div id="build-section" style="display:none">
             <div id="fare-preview">
-              <strong>🗺️ Route:</strong> <span id="route-display">None</span><br>
+              <strong>🗺️ Stops:</strong> <span id="route-display">—</span><br>
               <strong>💰 Fare:</strong> <span id="fare-display">£0.00</span> &nbsp;
               <strong>⏱ Time:</strong> <span id="time-display">0 min</span> &nbsp;
               <strong>🔄 Changes:</strong> <span id="changes-display">0</span>
@@ -430,60 +391,57 @@ button:focus-visible{outline:3px solid var(--oyster-teal);outline-offset:2px;}
 
         <!-- CARDS TAB -->
         <div id="tab-content-cards" style="display:none">
-          <h3 style="font-family:var(--font-h);font-size:24px;margin-bottom:8px;color:var(--oyster-teal)">🃏 ACTIVE DECK (5 max)</h3>
-          <p style="font-size:13px;color:var(--text-dim);margin-bottom:10px">Tap to toggle active (gold=active, apply bonuses)</p>
+          <h3 style="font-family:var(--font-h);font-size:22px;margin-bottom:6px;color:var(--oyster-teal)">🃏 ACTIVE DECK (5 max)</h3>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:8px">Tap to toggle active (gold border = active)</p>
           <div class="card-grid" id="deck-grid"></div>
-          <h3 style="font-family:var(--font-h);font-size:24px;margin:12px 0 8px;color:var(--text-dim)">🗃️ COLLECTION</h3>
+          <h3 style="font-family:var(--font-h);font-size:20px;margin:10px 0 6px;color:var(--text-dim)">🗃️ COLLECTION</h3>
           <div class="card-grid" id="collection-grid"></div>
         </div>
 
         <!-- SCORES TAB -->
         <div id="tab-content-scores" style="display:none">
-          <h3 style="font-family:var(--font-h);font-size:24px;margin-bottom:10px;color:var(--gold)">🏆 PERSONAL BESTS</h3>
+          <h3 style="font-family:var(--font-h);font-size:22px;margin-bottom:8px;color:var(--gold)">🏆 PERSONAL BESTS</h3>
           <div id="milestones-area"></div>
           <table class="pb-table">
-            <thead><tr><th>Route</th><th>Score</th><th>Time</th></tr></thead>
+            <thead><tr><th>Route</th><th>Score</th><th>Min</th></tr></thead>
             <tbody id="pb-tbody"></tbody>
           </table>
-          <h3 style="font-family:var(--font-h);font-size:22px;margin:14px 0 8px;color:var(--tfl-red)">💀 WORST RUNS</h3>
+          <h3 style="font-family:var(--font-h);font-size:20px;margin:12px 0 6px;color:var(--tfl-red)">💀 WORST RUNS</h3>
           <table class="pb-table">
-            <thead><tr><th>Route</th><th>Score</th><th>Time</th></tr></thead>
+            <thead><tr><th>Route</th><th>Score</th><th>Min</th></tr></thead>
             <tbody id="worst-tbody"></tbody>
           </table>
         </div>
 
         <!-- GALLERY TAB -->
         <div id="tab-content-gallery" style="display:none">
-          <h3 style="font-family:var(--font-h);font-size:24px;margin-bottom:6px;color:var(--elizabeth)">📖 CARD GALLERY</h3>
-          <p style="font-size:13px;color:var(--text-dim);margin-bottom:10px">
-            <span id="gallery-count">0</span>/60 cards collected
-          </p>
+          <h3 style="font-family:var(--font-h);font-size:22px;margin-bottom:4px;color:var(--elizabeth)">📖 CARD GALLERY</h3>
+          <p style="font-size:12px;color:var(--text-dim);margin-bottom:6px">
+            <span id="gallery-count">0</span>/24 collected</p>
           <div class="progress-bar"><div class="progress-fill" id="gallery-progress" style="width:0%"></div></div>
-          <div class="gallery-grid" id="gallery-grid" style="margin-top:10px"></div>
-          <h3 style="font-family:var(--font-h);font-size:22px;margin:12px 0 8px;color:var(--warn)">🏅 MILESTONES</h3>
+          <div class="gallery-grid" id="gallery-grid" style="margin-top:8px"></div>
+          <h3 style="font-family:var(--font-h);font-size:20px;margin:10px 0 6px;color:var(--warn)">🏅 MILESTONES</h3>
           <div id="milestone-list"></div>
-          <h3 style="font-family:var(--font-h);font-size:22px;margin:12px 0 8px;color:var(--gold)">📤 SHARE</h3>
-          <button class="btn-big btn-secondary" onclick="shareChallenge()" style="font-size:18px">
-            📤 SHARE CHALLENGE
+          <h3 style="font-family:var(--font-h);font-size:20px;margin:10px 0 6px;color:var(--gold)">📤 SHARE</h3>
+          <button class="btn-big btn-secondary" onclick="shareChallenge()" style="font-size:17px;margin-bottom:4px">
+            📤 SHARE CHALLENGE LINK
           </button>
-          <div id="share-code" style="margin-top:8px;display:none"></div>
-          <h3 style="font-family:var(--font-h);font-size:22px;margin:12px 0 8px;color:var(--oyster-teal)">💱 CARD MARKET</h3>
+          <div id="share-code"></div>
+          <h3 style="font-family:var(--font-h);font-size:20px;margin:10px 0 6px;color:var(--oyster-teal)">💱 CARD MARKET</h3>
           <div id="market-area"></div>
         </div>
 
-        <div class="scroll-fade"></div>
       </div>
     </div>
 
-    <!-- RIGHT PANEL - MAP -->
+    <!-- RIGHT: MAP -->
     <div id="right-panel">
       <div id="map-container">
         <div id="phase-banner">🎰 SPIN TO START</div>
         <div id="timer-display" style="display:none">⏱ 0:00</div>
-        <svg id="tube-map" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
-          <!-- Map rendered by JS -->
-        </svg>
+        <svg id="tube-map" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg" style="touch-action:none;"></svg>
         <div id="train-marker" style="display:none">🚂</div>
+        <div id="station-tooltip"></div>
         <div id="event-popup">
           <h2 id="event-icon">⚡</h2>
           <p id="event-msg">Event!</p>
@@ -491,10 +449,10 @@ button:focus-visible{outline:3px solid var(--oyster-teal);outline-offset:2px;}
         </div>
         <div id="game-overlay">
           <div id="build-section-map" style="display:none">
-            <p style="font-size:13px;color:var(--text-dim);margin-bottom:6px">
-              👆 Tap stations on the map to build your route
+            <p style="font-size:12px;color:var(--text-dim);margin-bottom:4px">
+              👆 Tap stations to build your route • Enter Circle at an interchange
             </p>
-            <div id="path-display" style="display:flex;flex-wrap:wrap;gap:4px;min-height:28px"></div>
+            <div id="path-display" style="display:flex;flex-wrap:wrap;gap:3px;min-height:26px"></div>
           </div>
         </div>
       </div>
@@ -502,52 +460,49 @@ button:focus-visible{outline:3px solid var(--oyster-teal);outline-offset:2px;}
   </div>
 </div>
 
-<!-- TUTORIAL MODAL -->
+<!-- TUTORIAL -->
 <div id="modal-overlay" class="hidden">
   <div id="modal-box">
-    <h2>🚇 WELCOME TO<br>TUBE QUEST!</h2>
-    <p>Collect cards, beat missions, and become the ultimate London Underground champion!</p>
-    <div class="modal-step"><em>1. SPIN</em> — Bet £20 on the slot machine to get a random mission. Match lines for bonuses!</div>
-    <div class="modal-step"><em>2. BUILD</em> — Tap stations on the map to plan your route. Fare and time shown live.</div>
-    <div class="modal-step"><em>3. TRAVEL</em> — Watch your train race the AI. Random events spice things up!</div>
-    <div class="modal-step"><em>4. WIN CARDS</em> — Beat the goal → earn Pokémon-style Tube Cards with special powers.</div>
-    <div class="modal-step"><em>💡 HINT</em> button shows the optimal route &nbsp; | &nbsp; <em>↩ UNDO</em> removes last station</div>
-    <div class="modal-step"><em>🐢 Slow Mode</em> doubles all timers &nbsp; | &nbsp; <em>🔊 Mute</em> silences sounds</div>
-    <p style="color:var(--gold);font-weight:900;font-size:16px">Start with £20 Oyster. Lower score = better!</p>
-    <button class="btn-big btn-spin" onclick="closeTutorial()" style="margin-top:12px">
-      🚇 LET'S GO!
-    </button>
+    <h2>🚇 WELCOME TO<br>TUBE QUEST v2!</h2>
+    <p>Navigate the Circle line to beat missions and collect legendary Tube Cards!</p>
+    <div class="modal-step"><em>1. SPIN</em> — Bet £20 on the slot machine. You get a START station (spoke), END station (different spoke), and a GOAL to beat.</div>
+    <div class="modal-step"><em>2. BUILD</em> — Tap your start station, tap an interchange to enter the Circle, pick ↻ or ↺ direction, travel the rim, exit to your destination spoke.</div>
+    <div class="modal-step"><em>3. TRAVEL</em> — Watch your train race! Random events: delays 😤, muggings 😈, bonuses 🎁</div>
+    <div class="modal-step"><em>4. WIN</em> — Beat the goal → earn rare Tube Cards with special powers.</div>
+    <div class="modal-step"><em>💡 HINT</em> shows the optimal route &nbsp;|&nbsp; <em>↩ UNDO</em> removes last tap &nbsp;|&nbsp; <em>🐢</em> slows timers</div>
+    <p style="color:var(--gold);font-weight:900;font-size:15px">Start with £20. Lower score = better. Good luck! 🚇</p>
+    <button class="btn-big btn-spin" onclick="closeTutorial()" style="margin-top:10px">🚇 LET'S GO!</button>
   </div>
 </div>
 
-<!-- RESULT SCREEN -->
+<!-- RESULT -->
 <div id="result-screen" class="hidden">
   <div id="result-box">
     <h2 id="result-title">🏆 MISSION COMPLETE!</h2>
     <div class="result-score" id="result-score">0</div>
-    <p style="font-size:14px;color:var(--text-dim)">SCORE (lower = better)</p>
-    <div class="result-stat" id="result-time">⏱ Time: 0:00</div>
-    <div class="result-stat" id="result-changes">🔄 Changes: 0</div>
-    <div class="result-stat" id="result-fare">💰 Fare: £0.00</div>
-    <div class="result-stat" id="result-oyster">🃏 Oyster: £0.00</div>
-    <div class="result-stat" id="result-pb">🏅 </div>
-    <h3 style="font-family:var(--font-h);font-size:22px;color:var(--gold);margin:10px 0 6px">CARDS WON:</h3>
+    <p style="font-size:13px;color:var(--text-dim)">SCORE (lower = better)</p>
+    <div class="result-stat" id="result-time">⏱ Time: —</div>
+    <div class="result-stat" id="result-changes">🔄 Changes: —</div>
+    <div class="result-stat" id="result-fare">💰 Fare: —</div>
+    <div class="result-stat" id="result-oyster">🃏 Oyster: —</div>
+    <div class="result-stat" id="result-pb">🏅 —</div>
+    <h3 style="font-family:var(--font-h);font-size:20px;color:var(--gold);margin:8px 0 5px">CARDS WON:</h3>
     <div class="result-cards" id="result-cards"></div>
-    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-      <button class="btn-big btn-spin" onclick="closeResult()" style="flex:1;font-size:20px">🎰 AGAIN!</button>
-      <button class="btn-big btn-secondary" onclick="shareResult()" style="flex:1;font-size:20px">📤 SHARE</button>
+    <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+      <button class="btn-big btn-spin" onclick="closeResult()" style="flex:1;font-size:19px">🎰 AGAIN!</button>
+      <button class="btn-big btn-secondary" onclick="shareResult()" style="flex:1;font-size:19px">📤 SHARE</button>
     </div>
   </div>
 </div>
 
 <script>
 // ============================================================
-// DATA
+// LINE COLORS
 // ============================================================
 const lineColors = {
-  B:'#B36305', C:'#FF9900', Ci:'#FFCD00', D:'#00782A', H:'#F25022',
-  J:'#968B9C', M:'#9B3777', N:'#000000', P:'#0019A8', V:'#FF0000',
-  W:'#00A3E0', E:'#603A9E'
+  B:'#B36305', C:'#FF0000', Ci:'#FFCD00', D:'#00782A', H:'#F3A9BB',
+  J:'#A0998A', M:'#9B3777', N:'#1C1C1C', P:'#0019A8', V:'#0098D4',
+  W:'#76D0BD', E:'#603A9E'
 };
 const lineNames = {
   B:'Bakerloo',C:'Central',Ci:'Circle',D:'District',H:'Hammersmith & City',
@@ -555,601 +510,743 @@ const lineNames = {
   W:'Waterloo & City',E:'Elizabeth'
 };
 
-const stations = {
-  "OXC":"Oxford Circus","PIC":"Piccadilly Circus","CHX":"Charing Cross",
-  "EMB":"Embankment","WLO":"Waterloo","BST":"Baker Street","PAD":"Paddington",
-  "TCR":"Tottenham Court Road","FAR":"Farringdon","LST":"Liverpool Street",
-  "BNK":"Bank","MON":"Monument","MOG":"Moorgate","ALD":"Aldgate",
-  "TOW":"Tower Hill","WMS":"Westminster","VIC":"Victoria","GPK":"Green Park",
-  "HYC":"Hyde Park Corner","KNT":"Knightsbridge","SKN":"South Kensington",
-  "GRD":"Gloucester Road","BCT":"Barons Court","HMD":"Hammersmith",
-  "TGR":"Turnham Green","KEW":"Kew Gardens","RIC":"Richmond",
-  "OST":"Osterley","HNC":"Hounslow Central",
-  "EUS":"Euston","KXX":"Kings Cross St. Pancras","ANG":"Angel",
-  "OLD":"Old Street","CAN":"Cannon Street","BLA":"Blackfriars",
-  "TMP":"Temple","CXR":"Chancery Lane","HOL":"Holborn",
-  "GRR":"Great Portland Street","WAR":"Warren Street",
-  "GOO":"Goodge Street","RGS":"Regent's Park","MAR":"Marble Arch",
-  "BON":"Bond Street","SHB":"Shepherd's Bush","WHC":"White City",
-  "EAL":"Ealing Broadway","ACT":"Acton Town","SGT":"South Ealing",
-  "STN":"Stratford","WCH":"Whitechapel","STH":"Stepney Green",
-  "MIL":"Mile End","BOW":"Bow Road","BMP":"Bromley-by-Bow",
-  "WAN":"Wapping","BER":"Bermondsey","LBR":"London Bridge",
-  "SWK":"Southwark","ETH":"Elephant & Castle","OVL":"Oval",
-  "STK":"Stockwell","CLH":"Clapham High Street","CLN":"Clapham North",
-  "CLS":"Clapham South","BAL":"Balham","TBW":"Tooting Broadway",
-  "COL":"Colliers Wood","WIM":"Wimbledon","EDG":"Edgware Road",
-  "PDD":"Paddington (D)","CAH":"Cannon Street H","MON2":"Monument M",
-  "CNH":"Canary Wharf","CUS":"Custom House","WOO":"Woolwich",
-  "ABB":"Abbey Wood","HT5":"Heathrow T5","HT4":"Heathrow T4",
-  "HT2":"Heathrow T2&3","HAY":"Hayes & Harlington","STB":"Southall",
-  "AML":"Acton Main Line","ILL":"Ilford","CHI":"Chigwell",
-  "SHF":"Shenfield","GAD":"Gidea Park","ROM":"Romford",
-  "GPW":"Goodmayes","CWH":"Canary Wharf E",
-  "SSQ":"Sloane Square","HIG":"Highbury & Islington",
-  "FIN":"Finsbury Park","ARS":"Arsenal","HBY":"Holloway Road",
-  "CAL":"Caledonian Road","TFP":"Tufnell Park","ARC":"Archway",
-  "HGT":"Highgate","EAF":"East Finchley","CHE":"Cheshunt",
-  "BRI":"Brixton","STO":"Stockwell N","LPL":"Pimlico",
-  "BGR":"Barbican","ALD2":"Aldgate East","SDM":"St. James's Park",
-  "FLP":"Fulham Broadway","PKR":"Parsons Green","PTN":"Putney Bridge",
-  "ERP":"East Putney","SDN":"Southfields","WAI":"Wimbledon Park",
-  "NHP":"North Harrow","HRW":"Harrow-on-the-Hill","CRK":"Chorleywood",
-  "AMS":"Amersham"
-};
-
-const stationsOnLine = {
-  B:["HRW","KNT","BKS","HRN","ELT","STM","KLB","QWN","KIL","WDB","NB","HRH","ELM","MIC","PAD","WLO","ELE","LBR","ELE2","NHP2","OXC","PIC","EMB","CHX"],
-  C:["EAL","ACT2","SHB","WHL","HGH","STB2","QLS","CHL","HLN","SFD","MBR","BTH","HOL","TCR","OXC","BNK","LVS","STP","HFD","LTH","LAT","LYT","EPS","CHI2"],
-  Ci:["HAM","GOL","RAV","STB3","TGR3","ACT","OLK","SHN","EAL2","WHL2","BCT2","ERP2","SDL","FUL","PKR2","PUT","WHF","BCT","GRD","SKN","GLR","SLQ","VIC","SDM","WMS","EMB","BLA","TMP","CAN","MON","BNK","ALG","ALB","LPT","ALH","FSB","MOG","KXX","YRK","GTS","FAR","BGR","ALG2","BRK","BLP"],
-  D:["RMD","KWD","RCH","GTY","STB","TGR","ACT","ALN","ERL","HMD","PRS","FUL","PKR","PTN","ERP","SDN","WAI","WIM","SLQ","GLR","SKN","ECR","HYC","BMP3","SDM","WMS","BLA","TMP","CHN","MON","BNK","THL","ALG","TBR","STH","MIL","BOW","BMP","BRB","WHL","STR","UPN"],
-  H:["WHL3","PHT","HOG","STB4","TGR4","ACT2","OLD4","GFL","EUS2","KXX2","FAR2","BGR2","ALG3","ALB2","WCH2","STP2","LVT","UCH"],
-  J:["SBY","FIN3","WPN","GLN","NCT","WHR","BKR","BST","BND","BGS","ZSQ","WHN","HBR","WLO","BRM","LBR","CNH","CPK","NFY","NWC","CFE"],
-  M:["AMS","CST","ALB","CHN2","DKN","WRB","HRW","NHP","NWK","GBY","RSL","KNH","WMB","BAK","GRS","EUS3","KXX3","ALD4","FAR3","BGR3","ALG4","ALB3","MON3"],
-  N:["CHE","ENT","HGH2","ARC","HGT","EFN","FRP","TFP","CLD","ANG","OLK","BNK","LBR","MGB","STO","CLN","CLH","CLS","BAL","TBW","CLW","MOD","NTP"],
-  P:["HT5","HT4","HT2","HAY","STB5","OST","HNC","IFD","BOS","GRN","CHW","ACT3","HMD2","BCT","GRD","SKN","KNT","HYC","GPK","GRN","PIC","COV","LES","HLD","ARS","FIN2","SBY2","OAK","COC"],
-  V:["BRI","STK","LPL","VIC","GPK","OXC","WAR","EUS","HIG2"],
-  E:["ABB","WOO","CUS","CWH","CRW","WCH","STP3","FSB","FAR","TCR","BND","PAD","AML","EAL","STR","ROF","ILL","GAD","SHF","HAY","STB6","HT2","HT4","HT5"]
-};
-
-// Station positions on 900x600 SVG
-const stationPos = {
-  "OXC":[380,200],"PIC":[350,230],"CHX":[340,270],"EMB":[360,280],
-  "WLO":[370,295],"BST":[310,175],"PAD":[280,200],"TCR":[390,210],
-  "FAR":[430,200],"LST":[480,200],"BNK":[470,230],"MON":[475,235],
-  "MOG":[465,200],"ALD":[490,220],"TOW":[510,240],"WMS":[330,280],
-  "VIC":[310,290],"GPK":[310,240],"HYC":[285,255],"KNT":[265,255],
-  "SKN":[245,265],"GRD":[235,270],"BCT":[170,290],"HMD":[155,280],
-  "TGR":[130,280],"KEW":[110,295],"RIC":[90,310],"OST":[100,270],
-  "HNC":[80,270],"EUS":[400,170],"KXX":[415,165],"ANG":[460,165],
-  "OLD":[475,180],"CAN":[475,245],"BLA":[430,265],"TMP":[405,270],
-  "CXR":[405,215],"HOL":[415,215],"GRR":[340,170],"WAR":[350,190],
-  "GOO":[365,200],"RGS":[340,185],"MAR":[295,240],"BON":[295,235],
-  "SHB":[200,230],"WHC":[210,225],"EAL":[80,240],"ACT":[145,260],
-  "STN":[570,200],"WCH":[530,215],"STH":[530,225],"MIL":[540,225],
-  "BOW":[555,215],"BMP":[565,220],"WAN":[510,255],"BER":[500,265],
-  "LBR":[490,265],"SWK":[475,275],"ETH":[450,295],"OVL":[415,310],
-  "STK":[410,315],"CLH":[400,330],"CLN":[400,325],"CLS":[395,340],
-  "BAL":[385,355],"TBW":[375,370],"COL":[360,385],"WIM":[330,395],
-  "EDG":[260,200],"CNH":[580,255],"CUS":[595,255],"WOO":[620,270],
-  "ABB":[640,275],"HT5":[30,250],"HT4":[40,260],"HT2":[55,250],
-  "HAY":[65,240],"STB":[110,240],"AML":[155,245],"ILL":[610,200],
-  "SHF":[690,190],"GAD":[650,195],"ROM":[665,200],
-  "CWH":[575,255],"HIG":[480,165],"FIN":[450,150],"ARS":[455,155],
-  "HBY":[460,160],"CAL":[420,155],"TFP":[425,150],"ARC":[440,145],
-  "HGT":[445,140],"EAF":[450,135],"BRI":[415,325],"LPL":[320,300],
-  "BGR":[455,205],"ALD2":[490,215],"SDM":[325,275],"FLP":[200,280],
-  "PKR":[215,285],"PTN":[220,295],"ERP":[225,305],"SDN":[250,305],
-  "WAI":[275,315],"HRW":[200,140],"AMS":[60,120],"NHP":[210,150],
-  "SSL":[295,280],"FIN2":[448,152]
-};
-
-const zones = {
-  "OXC":1,"PIC":1,"CHX":1,"EMB":1,"WLO":1,"BST":1,"PAD":1,"TCR":1,
-  "FAR":1,"LST":1,"BNK":1,"MON":1,"MOG":1,"ALD":1,"TOW":1,"WMS":1,
-  "VIC":1,"GPK":1,"HYC":1,"KNT":1,"SKN":1,"GRD":1,"BCT":2,"HMD":2,
-  "TGR":2,"KEW":3,"RIC":4,"OST":4,"HNC":4,"EUS":1,"KXX":1,"ANG":1,
-  "OLD":1,"CAN":1,"BLA":1,"TMP":1,"CXR":1,"HOL":1,"GRR":1,"WAR":1,
-  "GOO":1,"RGS":1,"MAR":1,"BON":1,"SHB":2,"WHC":2,"EAL":3,"ACT":3,
-  "STN":2,"WCH":2,"STH":2,"MIL":2,"BOW":2,"BMP":3,"LBR":1,"SWK":1,
-  "ETH":1,"OVL":2,"STK":2,"CLH":2,"CLN":2,"CLS":2,"BAL":3,"TBW":3,
-  "COL":3,"WIM":3,"CNH":2,"CUS":3,"WOO":4,"ABB":4,
-  "HT5":6,"HT4":6,"HT2":6,"HAY":5,"STB":4,"AML":3,"ILL":4,"SHF":7,
-  "GAD":5,"ROM":5,"CWH":2,"HIG":2,"FIN":2,"ARS":2,"BRI":2,"LPL":1,
-  "BGR":1,"HRW":5,"AMS":9,"NHP":5
-};
-
 // ============================================================
-// CARD DEFINITIONS
+// BICYCLE WHEEL MAP DATA
 // ============================================================
-const cardDefs = [
-  {id:"E01",name:"Elizabeth Express",line:"E",color:"#603A9E",stats:{speed:9,crowd:3},ability:"-2min on E-line"},
-  {id:"E02",name:"Crossrail Commuter",line:"E",color:"#7B4FB5",stats:{speed:8,crowd:4},ability:"Free Z1→Z2 transfer"},
-  {id:"E03",name:"Heathrow Hopper",line:"E",color:"#5A2E8A",stats:{speed:7,crowd:5},ability:"Airport bonus x1.5"},
-  {id:"E04",name:"Paddington Bear",line:"E",color:"#8B5FB8",stats:{speed:6,crowd:6},ability:"PAD interchange free"},
-  {id:"V01",name:"Victoria Viper",line:"V",color:"#FF0000",stats:{speed:9,crowd:5},ability:"Rush skip 1 event"},
-  {id:"V02",name:"Brixton Beat",line:"V",color:"#CC0000",stats:{speed:7,crowd:7},ability:"+£1 on V wins"},
-  {id:"V03",name:"Victoria Veteran",line:"V",color:"#FF3333",stats:{speed:6,crowd:6},ability:"Rare: +10 score"},
-  {id:"J01",name:"Jubilee Jet",line:"J",color:"#A0998A",stats:{speed:8,crowd:4},ability:"CNH docks fast -1min"},
-  {id:"J02",name:"Jubilee Ninja",line:"J",color:"#968B9C",stats:{speed:7,crowd:5},ability:"Dodge 1 Mug event"},
-  {id:"J03",name:"Silver Streaker",line:"J",color:"#7A7080",stats:{speed:8,crowd:3},ability:"No delays on J"},
-  {id:"N01",name:"Northern Nightmare",line:"N",color:"#222222",stats:{speed:5,crowd:9},ability:"Night bonus double £"},
-  {id:"N02",name:"Morden Maverick",line:"N",color:"#333333",stats:{speed:6,crowd:8},ability:"South loop shortcut"},
-  {id:"N03",name:"Bank Bandit",line:"N",color:"#111111",stats:{speed:7,crowd:6},ability:"BNK transfer free"},
-  {id:"C01",name:"Central Champ",line:"C",color:"#FF0000",stats:{speed:8,crowd:7},ability:"EAL fast express"},
-  {id:"C02",name:"Red Racer",line:"C",color:"#CC0000",stats:{speed:9,crowd:6},ability:"-1min per C station"},
-  {id:"P01",name:"Piccadilly Pioneer",line:"P",color:"#0019A8",stats:{speed:7,crowd:6},ability:"HT fast +£2 bonus"},
-  {id:"P02",name:"Airport Ace",line:"P",color:"#0033CC",stats:{speed:8,crowd:5},ability:"Heathrow missions +20"},
-  {id:"B01",name:"Bakerloo Baker",line:"B",color:"#B36305",stats:{speed:5,crowd:7},ability:"OXC free change"},
-  {id:"D01",name:"District Dasher",line:"D",color:"#00782A",stats:{speed:6,crowd:6},ability:"WIM express −2min"},
-  {id:"D02",name:"District Dragon",line:"D",color:"#005A20",stats:{speed:7,crowd:5},ability:"Rare find +£3"},
-  {id:"Ci01",name:"Circle Spinner",line:"Ci",color:"#FFCD00",stats:{speed:5,crowd:5},ability:"Loop bonus free £"},
-  {id:"M01",name:"Metro Master",line:"M",color:"#9B3777",stats:{speed:6,crowd:4},ability:"AMS rare +card"},
-  {id:"W01",name:"Waterloo Wave",line:"W",color:"#00A3E0",stats:{speed:9,crowd:3},ability:"2-stop blitz −3min"},
-  {id:"SPEC1",name:"⭐ Rush Hour Hero",line:"E",color:"#FFD700",stats:{speed:10,crowd:2},ability:"Legendary: all −3min"},
-  {id:"SPEC2",name:"👑 Oyster King",line:"J",color:"#FF8C00",stats:{speed:8,crowd:2},ability:"All fares −20%"},
-  {id:"SPEC3",name:"🌙 Night Tube Legend",line:"N",color:"#1A1A2E",stats:{speed:7,crowd:1},ability:"Events +£ instead"},
-  {id:"SPEC4",name:"🚄 Elizabeth MVP",line:"E",color:"#7B2D8B",stats:{speed:10,crowd:1},ability:"All E missions auto-win"},
+// Circle line stations in order (clockwise), with their SVG positions
+// The circle is centred around ~(400, 340) with radius ~210
+// Positions hand-crafted to form a near-circle with gap at Edgware Road
+
+const circleStations = [
+  // id, name, [x,y], isInterchange
+  {id:'HMD', name:'Hammersmith',         pos:[148,340], interchange:true},
+  {id:'GOL', name:'Goldhawk Road',        pos:[155,295], interchange:false},
+  {id:'SBM', name:"Shepherd's Bush Mkt", pos:[175,260], interchange:false},
+  {id:'WLN', name:'Wood Lane',            pos:[200,235], interchange:false},
+  {id:'LAT', name:'Latimer Road',         pos:[230,215], interchange:false},
+  {id:'LGV', name:'Ladbroke Grove',       pos:[260,205], interchange:false},
+  {id:'WBP', name:'Westbourne Park',      pos:[295,200], interchange:false},
+  {id:'ROK', name:'Royal Oak',            pos:[325,198], interchange:false},
+  {id:'PAD', name:'Paddington',           pos:[355,202], interchange:true},
+  {id:'EDG', name:'Edgware Road',         pos:[385,210], interchange:true},
+  // Gap here - no direct connection EDG→BST on Circle (it loops back)
+  {id:'BST', name:'Baker Street',         pos:[390,248], interchange:true},
+  {id:'GPT', name:'Great Portland St',    pos:[410,258], interchange:false},
+  {id:'EUS', name:'Euston Square',        pos:[432,258], interchange:false},
+  {id:'KXX', name:"King's Cross St P",    pos:[455,252], interchange:true},
+  {id:'FAR', name:'Farringdon',           pos:[490,248], interchange:true},
+  {id:'BGR', name:'Barbican',             pos:[510,252], interchange:false},
+  {id:'MOG', name:'Moorgate',             pos:[530,265], interchange:true},
+  {id:'LST', name:'Liverpool Street',     pos:[548,285], interchange:true},
+  {id:'ALD', name:'Aldgate',              pos:[558,312], interchange:true},
+  {id:'TOW', name:'Tower Hill',           pos:[558,342], interchange:true},
+  {id:'MON', name:'Monument',             pos:[548,368], interchange:true},
+  {id:'CAN', name:'Cannon Street',        pos:[528,388], interchange:false},
+  {id:'MAN', name:'Mansion House',        pos:[505,400], interchange:false},
+  {id:'BLA', name:'Blackfriars',          pos:[480,408], interchange:false},
+  {id:'TMP', name:'Temple',               pos:[452,412], interchange:false},
+  {id:'EMB', name:'Embankment',           pos:[425,410], interchange:true},
+  {id:'WMS', name:'Westminster',          pos:[400,410], interchange:true},
+  {id:'SDM', name:"St James's Park",      pos:[375,408], interchange:false},
+  {id:'VIC', name:'Victoria',             pos:[348,408], interchange:true},
+  {id:'SSQ', name:'Sloane Square',        pos:[318,408], interchange:false},
+  {id:'SKN', name:'South Kensington',     pos:[290,400], interchange:true},
+  {id:'GRD', name:'Gloucester Road',      pos:[265,385], interchange:true},
+  {id:'HSK', name:'High St Kensington',   pos:[242,365], interchange:true},
+  {id:'NHG', name:'Notting Hill Gate',    pos:[222,340], interchange:true},
+  {id:'BAY', name:'Bayswater',            pos:[190,325], interchange:false},
+  {id:'PAD2',name:'Paddington (West)',    pos:[165,330], interchange:true},
+  // connects back to Hammersmith area (no full close - spiral)
 ];
+
+// Spoke stations (outer) — keyed by interchange id they branch from
+const spokeStations = {
+  'HMD': [
+    {id:'BEC', name:'Beaconsfield Rd',  pos:[90,340],  line:'D'},
+    {id:'RVS', name:'Ravenscourt Park', pos:[60,340],  line:'D'},
+    {id:'STB', name:'Stamford Brook',   pos:[35,340],  line:'D'},
+  ],
+  'PAD': [
+    {id:'PCC', name:'Paddington (B)',   pos:[340,165], line:'B'},
+    {id:'QWY', name:'Queens Way',       pos:[320,140], line:'B'},
+    {id:'ELW', name:'Ealing Broadway',  pos:[300,118], line:'E'},
+    {id:'HT2', name:'Heathrow T2&3',    pos:[270,100], line:'E'},
+  ],
+  'EDG': [
+    {id:'MBN', name:'Marylebone',       pos:[400,170], line:'B'},
+    {id:'KIL', name:'Kilburn',          pos:[400,135], line:'B'},
+  ],
+  'BST': [
+    {id:'FNR', name:'Finchley Road',    pos:[365,210], line:'J'},
+    {id:'WPN', name:'Wembley Park',     pos:[340,175], line:'J'},
+    {id:'HRW', name:'Harrow-on-Hill',   pos:[320,148], line:'M'},
+  ],
+  'KXX': [
+    {id:'ANG', name:'Angel',            pos:[490,215], line:'N'},
+    {id:'HIG', name:'Highbury & Isl.',  pos:[510,185], line:'V'},
+    {id:'FIN', name:'Finsbury Park',    pos:[490,158], line:'P'},
+    {id:'EUS2',name:'Euston',           pos:[450,218], line:'V'},
+  ],
+  'FAR': [
+    {id:'CXR', name:'Chancery Lane',    pos:[490,275], line:'C'},
+    {id:'HOL', name:'Holborn',          pos:[490,298], line:'C'},
+  ],
+  'MOG': [
+    {id:'OLD', name:'Old Street',       pos:[558,248], line:'N'},
+  ],
+  'LST': [
+    {id:'BTS', name:'Bethnal Green',    pos:[590,268], line:'C'},
+    {id:'STR', name:'Stratford',        pos:[630,268], line:'C'},
+    {id:'WCH', name:'Whitechapel',      pos:[588,298], line:'E'},
+    {id:'CWH', name:'Canary Wharf',     pos:[618,325], line:'E'},
+  ],
+  'ALD': [
+    {id:'ALB', name:'Aldgate East',     pos:[585,325], line:'D'},
+    {id:'WHC', name:'Whitechapel (D)',  pos:[608,342], line:'D'},
+  ],
+  'TOW': [
+    {id:'BER', name:'Bermondsey',       pos:[575,368], line:'J'},
+    {id:'LBR', name:'London Bridge',    pos:[565,395], line:'N'},
+  ],
+  'EMB': [
+    {id:'WLO', name:'Waterloo',         pos:[435,438], line:'J'},
+    {id:'CHX', name:'Charing Cross',    pos:[418,440], line:'N'},
+  ],
+  'WMS': [
+    {id:'LAM', name:'Lambeth North',    pos:[388,440], line:'B'},
+    {id:'ELP', name:'Elephant & C.',    pos:[388,468], line:'N'},
+  ],
+  'VIC': [
+    {id:'PIK', name:'Pimlico',          pos:[335,438], line:'V'},
+    {id:'STK', name:'Stockwell',        pos:[328,468], line:'V'},
+    {id:'BRI', name:'Brixton',          pos:[318,500], line:'V'},
+  ],
+  'SKN': [
+    {id:'KNT', name:'Knightsbridge',    pos:[302,375], line:'P'},
+    {id:'GPK', name:'Green Park',       pos:[318,358], line:'J'},
+    {id:'HYC', name:'Hyde Park Corner', pos:[295,355], line:'P'},
+  ],
+  'GRD': [
+    {id:'ERP', name:'Earl\'s Court',    pos:[238,400], line:'D'},
+    {id:'FUL', name:'Fulham Broadway',  pos:[215,422], line:'D'},
+    {id:'WIM', name:'Wimbledon',        pos:[192,445], line:'D'},
+  ],
+  'HSK': [
+    {id:'ACT', name:'Acton Town',       pos:[200,385], line:'P'},
+    {id:'OST', name:'Osterley',         pos:[172,402], line:'P'},
+  ],
+  'NHG': [
+    {id:'QBY', name:'Queensway',        pos:[210,312], line:'C'},
+    {id:'MBL', name:'Marble Arch',      pos:[232,298], line:'C'},
+    {id:'BON', name:'Bond Street',      pos:[252,280], line:'J'},
+    {id:'OXC', name:'Oxford Circus',    pos:[270,262], line:'V'},
+  ],
+  'PAD2': [
+    {id:'WDB', name:'Westbourne Pk (B)',pos:[138,310], line:'H'},
+    {id:'KIL2',name:'Kilburn Park',     pos:[115,292], line:'B'},
+  ],
+};
+
+// Flat list of all stations
+const allStations = {};
+circleStations.forEach(s => { allStations[s.id] = s; });
+Object.values(spokeStations).flat().forEach(s => { allStations[s.id] = s; });
+
+// Zone assignments (for fare calc)
+const zones = {
+  'HMD':2,'GOL':2,'SBM':2,'WLN':2,'LAT':2,'LGV':2,'WBP':2,'ROK':2,
+  'PAD':1,'EDG':1,'BST':1,'GPT':1,'EUS':1,'KXX':1,'FAR':1,'BGR':1,
+  'MOG':1,'LST':1,'ALD':1,'TOW':1,'MON':1,'CAN':1,'MAN':1,'BLA':1,
+  'TMP':1,'EMB':1,'WMS':1,'SDM':1,'VIC':1,'SSQ':1,'SKN':1,'GRD':2,
+  'HSK':2,'NHG':2,'BAY':2,'PAD2':1,
+  // Spokes
+  'BEC':3,'RVS':3,'STB':3,'PCC':1,'QWY':2,'ELW':3,'HT2':6,
+  'MBN':1,'KIL':2,'FNR':2,'WPN':4,'HRW':5,
+  'ANG':1,'HIG':2,'FIN':2,'EUS2':1,
+  'CXR':1,'HOL':1,'OLD':1,'BTS':2,'STR':3,'WCH':2,'CWH':2,
+  'ALB':2,'WHC':2,'BER':1,'LBR':1,
+  'WLO':1,'CHX':1,'LAM':1,'ELP':1,
+  'PIK':1,'STK':2,'BRI':2,
+  'KNT':1,'GPK':1,'HYC':1,'ERP':2,'FUL':2,'WIM':3,
+  'ACT':3,'OST':4,'QBY':1,'MBL':1,'BON':1,'OXC':1,
+  'WDB':2,'KIL2':2
+};
 
 // ============================================================
 // GRAPH BUILDING
 // ============================================================
-const graph = {}; // adjacency: {station: [{station, time, line, isChange}]}
+const graph = {};
+
+function initGraph(s) { if (!graph[s]) graph[s] = []; }
+
+function addEdge(a, b, time, line) {
+  initGraph(a); initGraph(b);
+  graph[a].push({to:b, time, line});
+  graph[b].push({to:a, time, line});
+}
 
 function buildGraph() {
-  for (const s in stations) graph[s] = [];
-  
-  for (const [lineCode, lineStops] of Object.entries(stationsOnLine)) {
-    const validStops = lineStops.filter(s => stations[s]);
-    for (let i=0; i<validStops.length-1; i++) {
-      const a = validStops[i], b = validStops[i+1];
-      if (!graph[a]) graph[a] = [];
-      if (!graph[b]) graph[b] = [];
-      const t = lineCode === 'E' ? 2 : 2;
-      graph[a].push({to:b, time:t, line:lineCode});
-      graph[b].push({to:a, time:t, line:lineCode});
+  // Circle line edges (clockwise sequence)
+  for (let i = 0; i < circleStations.length - 1; i++) {
+    const a = circleStations[i].id;
+    const b = circleStations[i+1].id;
+    // Skip the gap: EDG → BST is NOT a direct circle connection (it's the break)
+    // The Circle actually runs: ...PAD → EDG (end of one direction) and BST → ... (other direction)
+    // For gameplay: PAD2 loops back to HMD completing the western arc
+    if (a === 'EDG' && b === 'BST') {
+      // No direct edge - player must change here
+      continue;
     }
+    addEdge(a, b, 3, 'Ci');
   }
+  // Close the western arc: PAD2 → HMD
+  addEdge('PAD2', 'HMD', 3, 'Ci');
+  // PAD → PAD2 interchange (same station different platforms)
+  addEdge('PAD', 'PAD2', 2, 'Ci');
+
+  // Spoke edges
+  Object.entries(spokeStations).forEach(([interchange, spokes]) => {
+    // Interchange to first spoke
+    if (spokes.length > 0) {
+      addEdge(interchange, spokes[0].id, 3, spokes[0].line);
+      // Chain spokes
+      for (let i = 0; i < spokes.length - 1; i++) {
+        addEdge(spokes[i].id, spokes[i+1].id, 3, spokes[i+1].line);
+      }
+    }
+  });
+  // Special: PAD and PAD2 both connect to their spokes
 }
 
 function bfs(start, end) {
-  if (start === end) return {path:[start], time:0, changes:0, lines:[]};
-  const queue = [{node:start, path:[start], time:0, changes:0, lastLine:null, lines:[]}];
+  if (start === end) return {path:[start], time:0, changes:0};
+  const queue = [{node:start, path:[start], time:0, changes:0, lastLine:null}];
   const visited = new Map();
-  
   while (queue.length) {
     queue.sort((a,b)=>a.time-b.time);
-    const {node, path, time, changes, lastLine, lines} = queue.shift();
+    const {node, path, time, changes, lastLine} = queue.shift();
     const key = `${node}:${lastLine}`;
     if (visited.has(key)) continue;
     visited.set(key, true);
-    
     for (const edge of (graph[node]||[])) {
       if (path.includes(edge.to)) continue;
       const isChange = lastLine && lastLine !== edge.line;
       const addTime = edge.time + (isChange ? 4 : 0);
       const newPath = [...path, edge.to];
-      if (edge.to === end) {
-        return {path:newPath, time:time+addTime, changes:changes+(isChange?1:0), lines:[...lines, edge.line]};
-      }
-      queue.push({node:edge.to, path:newPath, time:time+addTime, 
-        changes:changes+(isChange?1:0), lastLine:edge.line, lines:[...lines,edge.line]});
+      if (edge.to === end) return {path:newPath, time:time+addTime, changes:changes+(isChange?1:0)};
+      queue.push({node:edge.to, path:newPath, time:time+addTime,
+        changes:changes+(isChange?1:0), lastLine:edge.line});
     }
   }
   return null;
 }
 
-function getLineForEdge(a, b) {
-  if (!graph[a]) return null;
-  const e = graph[a].find(x=>x.to===b);
+function getEdgeLine(a, b) {
+  const e = (graph[a]||[]).find(x=>x.to===b);
   return e ? e.line : null;
 }
 
 // ============================================================
+// CARD DEFINITIONS
+// ============================================================
+const cardDefs = [
+  {id:'E01',name:'Elizabeth Express',line:'E',color:'#603A9E',stats:{speed:9,crowd:3},ability:'-2min on E-line'},
+  {id:'E02',name:'Crossrail Commuter',line:'E',color:'#7B4FB5',stats:{speed:8,crowd:4},ability:'Free Z1→Z2 transfer'},
+  {id:'E03',name:'Heathrow Hopper',line:'E',color:'#5A2E8A',stats:{speed:7,crowd:5},ability:'Airport bonus x1.5'},
+  {id:'V01',name:'Victoria Viper',line:'V',color:'#0098D4',stats:{speed:9,crowd:5},ability:'Rush: skip 1 event'},
+  {id:'V02',name:'Victoria Veteran',line:'V',color:'#0077AA',stats:{speed:7,crowd:6},ability:'Rare: +10 score'},
+  {id:'J01',name:'Jubilee Jet',line:'J',color:'#A0998A',stats:{speed:8,crowd:4},ability:'Docks fast -1min'},
+  {id:'J02',name:'Jubilee Ninja',line:'J',color:'#7A7080',stats:{speed:7,crowd:5},ability:'Dodge 1 Mug event'},
+  {id:'N01',name:'Northern Nightmare',line:'N',color:'#444',stats:{speed:5,crowd:9},ability:'Night bonus double £'},
+  {id:'N02',name:'Bank Bandit',line:'N',color:'#222',stats:{speed:7,crowd:6},ability:'BNK transfer free'},
+  {id:'C01',name:'Central Champ',line:'C',color:'#FF0000',stats:{speed:8,crowd:7},ability:'EAL fast express'},
+  {id:'C02',name:'Red Racer',line:'C',color:'#CC0000',stats:{speed:9,crowd:6},ability:'-1min per C station'},
+  {id:'P01',name:'Piccadilly Pioneer',line:'P',color:'#0019A8',stats:{speed:7,crowd:6},ability:'HT fast +£2 bonus'},
+  {id:'B01',name:'Bakerloo Baker',line:'B',color:'#B36305',stats:{speed:5,crowd:7},ability:'OXC free change'},
+  {id:'D01',name:'District Dasher',line:'D',color:'#00782A',stats:{speed:6,crowd:6},ability:'WIM express -2min'},
+  {id:'Ci01',name:'Circle Spinner',line:'Ci',color:'#FFCD00',stats:{speed:5,crowd:5},ability:'Loop bonus free £'},
+  {id:'Ci02',name:'Yellow Jacket',line:'Ci',color:'#E6B800',stats:{speed:6,crowd:4},ability:'Circle always clockwise'},
+  {id:'M01',name:'Metro Master',line:'M',color:'#9B3777',stats:{speed:6,crowd:4},ability:'HRW rare +card'},
+  {id:'W01',name:'Waterloo Wave',line:'W',color:'#76D0BD',stats:{speed:9,crowd:3},ability:'2-stop blitz -3min'},
+  {id:'SPEC1',name:'⭐ Rush Hour Hero',line:'E',color:'#FFD700',stats:{speed:10,crowd:2},ability:'Legendary: all -3min'},
+  {id:'SPEC2',name:'👑 Oyster King',line:'J',color:'#FF8C00',stats:{speed:8,crowd:2},ability:'All fares -20%'},
+  {id:'SPEC3',name:'🌙 Night Tube Legend',line:'N',color:'#1A1A2E',stats:{speed:7,crowd:1},ability:'Events give £ instead'},
+  {id:'SPEC4',name:'🚄 Circle Master',line:'Ci',color:'#7B2D8B',stats:{speed:10,crowd:1},ability:'Circle missions auto-win'},
+  {id:'H01',name:'Hammersmith Hero',line:'H',color:'#F3A9BB',stats:{speed:6,crowd:5},ability:'West London shortcut'},
+  {id:'PAD1',name:'Paddington Bear 🐻',line:'Ci',color:'#8B5FB8',stats:{speed:6,crowd:6},ability:'PAD interchange free'},
+];
+
+// ============================================================
 // GAME STATE
 // ============================================================
-let gameState = {
-  oyster: 20.00,
-  deck: [],
-  collection: [],
-  pbs: [],
-  worsts: [],
-  streak: 0,
-  lastDay: null,
-  tutorialSeen: false,
-  milestones: {},
-  galleryAll: [],
-  muted: false,
-  slowMode: false
+let gs = {
+  oyster:20, deck:[], collection:[], pbs:[], worsts:[],
+  streak:0, lastDay:null, wonToday:false, tutorialSeen:false,
+  milestones:{}, muted:false, slowMode:false
 };
 
-let missionState = {
-  active: false,
-  start: null,
-  end: null,
-  goal: null,
-  playerPath: [],
-  confirmed: false,
-  travelling: false,
-  startTime: null,
-  elapsed: 0,
-  timerInterval: null,
-  playerResult: null,
-  aiResult: null
+let ms = {
+  active:false, start:null, end:null, goal:null,
+  playerPath:[], travelling:false, startTime:null,
+  elapsed:0, timerInterval:null, playerResult:null,
+  direction:null // 'cw' or 'acw'
 };
 
 // ============================================================
-// SAVE / LOAD
+// SAVE/LOAD
 // ============================================================
-function saveState() {
-  try { localStorage.setItem('tubequest_v2', JSON.stringify(gameState)); } catch(e){}
-}
-function loadState() {
+function save() { try { localStorage.setItem('tubequest_v2', JSON.stringify(gs)); } catch(e){} }
+function load() {
   try {
     const d = localStorage.getItem('tubequest_v2');
-    if (d) {
-      const saved = JSON.parse(d);
-      Object.assign(gameState, saved);
-    }
+    if (d) Object.assign(gs, JSON.parse(d));
   } catch(e){}
-  checkDailyReset();
-}
-function checkDailyReset() {
   const today = new Date().toDateString();
-  if (gameState.lastDay && gameState.lastDay !== today) {
-    if (!gameState.wonToday) gameState.streak = 0;
-    gameState.wonToday = false;
+  if (gs.lastDay && gs.lastDay !== today) {
+    if (!gs.wonToday) gs.streak = 0;
+    gs.wonToday = false;
   }
-  gameState.lastDay = today;
+  gs.lastDay = today;
 }
 
 // ============================================================
-// AUDIO (base64-free, WebAudio synth)
+// AUDIO (WebAudio synth)
 // ============================================================
-let audioCtx = null;
-function getAudio() {
-  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  return audioCtx;
-}
+let actx = null;
+function getActx() { if (!actx) actx = new (window.AudioContext||window.webkitAudioContext)(); return actx; }
 function playSound(type) {
-  if (gameState.muted) return;
+  if (gs.muted) return;
   try {
-    const ctx = getAudio();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
+    const ctx = getActx();
+    const osc = ctx.createOscillator(), gain = ctx.createGain();
     osc.connect(gain); gain.connect(ctx.destination);
     const t = ctx.currentTime;
     if (type==='spin') {
       osc.type='square'; osc.frequency.setValueAtTime(200,t);
-      osc.frequency.exponentialRampToValueAtTime(800,t+0.3);
-      gain.gain.setValueAtTime(0.2,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+      osc.frequency.exponentialRampToValueAtTime(900,t+0.3);
+      gain.gain.setValueAtTime(0.18,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.4);
       osc.start(t); osc.stop(t+0.4);
     } else if (type==='ding') {
       osc.type='sine'; osc.frequency.setValueAtTime(880,t);
-      osc.frequency.exponentialRampToValueAtTime(1760,t+0.15);
-      gain.gain.setValueAtTime(0.3,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.5);
+      osc.frequency.exponentialRampToValueAtTime(1760,t+0.2);
+      gain.gain.setValueAtTime(0.28,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.5);
       osc.start(t); osc.stop(t+0.5);
     } else if (type==='cha') {
       osc.type='triangle'; osc.frequency.setValueAtTime(660,t);
       osc.frequency.exponentialRampToValueAtTime(1320,t+0.1);
-      gain.gain.setValueAtTime(0.25,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.3);
+      gain.gain.setValueAtTime(0.22,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.3);
       osc.start(t); osc.stop(t+0.3);
     } else if (type==='buzz') {
-      osc.type='sawtooth'; osc.frequency.setValueAtTime(150,t);
-      gain.gain.setValueAtTime(0.3,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.6);
-      osc.start(t); osc.stop(t+0.6);
+      osc.type='sawtooth'; osc.frequency.setValueAtTime(120,t);
+      gain.gain.setValueAtTime(0.28,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.7);
+      osc.start(t); osc.stop(t+0.7);
     } else if (type==='chug') {
-      osc.type='square'; osc.frequency.setValueAtTime(80,t);
-      osc.frequency.setValueAtTime(100,t+0.1); osc.frequency.setValueAtTime(80,t+0.2);
-      gain.gain.setValueAtTime(0.15,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.5);
-      osc.start(t); osc.stop(t+0.5);
+      osc.type='square'; osc.frequency.setValueAtTime(75,t);
+      osc.frequency.setValueAtTime(95,t+0.08); osc.frequency.setValueAtTime(75,t+0.16);
+      gain.gain.setValueAtTime(0.12,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+      osc.start(t); osc.stop(t+0.4);
     }
   } catch(e){}
+}
+
+// ============================================================
+// MAP DRAWING
+// ============================================================
+function buildMap() {
+  const svg = document.getElementById('tube-map');
+  svg.innerHTML = '';
+
+  // Background glow in centre
+  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
+  defs.innerHTML = `
+    <radialGradient id="centreGlow" cx="50%" cy="48%" r="35%">
+      <stop offset="0%" stop-color="#1A2240" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0A0E1A" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>`;
+  svg.appendChild(defs);
+
+  // Centre glow
+  const glowBg = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+  glowBg.setAttribute('cx','395'); glowBg.setAttribute('cy','320');
+  glowBg.setAttribute('rx','230'); glowBg.setAttribute('ry','185');
+  glowBg.setAttribute('fill','url(#centreGlow)');
+  svg.appendChild(glowBg);
+
+  // Watermark
+  const wm = document.createElementNS('http://www.w3.org/2000/svg','text');
+  wm.setAttribute('x','395'); wm.setAttribute('y','335');
+  wm.setAttribute('text-anchor','middle'); wm.setAttribute('font-size','100');
+  wm.setAttribute('fill','rgba(255,205,0,0.04)');
+  wm.setAttribute('font-family','Bebas Neue,sans-serif');
+  wm.textContent = 'CIRCLE';
+  svg.appendChild(wm);
+
+  // Draw spoke lines FIRST (behind circle)
+  Object.entries(spokeStations).forEach(([intId, spokes]) => {
+    if (spokes.length === 0) return;
+    const intStation = allStations[intId];
+    if (!intStation) return;
+    spokes.forEach((sp, idx) => {
+      const prev = idx === 0 ? intStation : allStations[spokes[idx-1].id];
+      const cur = allStations[sp.id];
+      if (!prev || !cur) return;
+      const ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+      ln.setAttribute('x1', prev.pos[0]); ln.setAttribute('y1', prev.pos[1]);
+      ln.setAttribute('x2', cur.pos[0]); ln.setAttribute('y2', cur.pos[1]);
+      const col = lineColors[sp.line] || '#888';
+      ln.setAttribute('stroke', col);
+      ln.setAttribute('stroke-width', idx===0 ? '4' : '3');
+      ln.setAttribute('stroke-linecap','round');
+      ln.setAttribute('opacity', 0.7 - idx*0.15);
+      svg.appendChild(ln);
+    });
+  });
+
+  // Draw Circle line segments
+  for (let i = 0; i < circleStations.length - 1; i++) {
+    const a = circleStations[i];
+    const b = circleStations[i+1];
+    if (a.id === 'EDG' && b.id === 'BST') continue; // the gap!
+    const ln = document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1', a.pos[0]); ln.setAttribute('y1', a.pos[1]);
+    ln.setAttribute('x2', b.pos[0]); ln.setAttribute('y2', b.pos[1]);
+    ln.setAttribute('stroke', '#FFCD00');
+    ln.setAttribute('stroke-width', '5');
+    ln.setAttribute('stroke-linecap','round');
+    ln.setAttribute('filter','url(#glow)');
+    svg.appendChild(ln);
+  }
+  // Close western arc
+  const lastCircle = circleStations[circleStations.length-1]; // PAD2
+  const firstCircle = circleStations[0]; // HMD
+  const closingLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+  closingLine.setAttribute('x1', lastCircle.pos[0]); closingLine.setAttribute('y1', lastCircle.pos[1]);
+  closingLine.setAttribute('x2', firstCircle.pos[0]); closingLine.setAttribute('y2', firstCircle.pos[1]);
+  closingLine.setAttribute('stroke', '#FFCD00');
+  closingLine.setAttribute('stroke-width', '5');
+  closingLine.setAttribute('stroke-linecap','round');
+  closingLine.setAttribute('filter','url(#glow)');
+  svg.appendChild(closingLine);
+
+  // GAP indicator at EDG-BST
+  const edg = allStations['EDG'], bst = allStations['BST'];
+  const gapMidX = (edg.pos[0]+bst.pos[0])/2;
+  const gapMidY = (edg.pos[1]+bst.pos[1])/2;
+  const gapTxt = document.createElementNS('http://www.w3.org/2000/svg','text');
+  gapTxt.setAttribute('x', gapMidX+5); gapTxt.setAttribute('y', gapMidY-4);
+  gapTxt.setAttribute('font-size','9'); gapTxt.setAttribute('fill','rgba(255,205,0,0.5)');
+  gapTxt.setAttribute('font-family','Nunito,sans-serif'); gapTxt.setAttribute('font-weight','bold');
+  gapTxt.textContent = '⚠ gap';
+  svg.appendChild(gapTxt);
+
+  // Draw all stations
+  const allToRender = [...circleStations, ...Object.values(spokeStations).flat()];
+  allToRender.forEach(s => {
+    const isCircle = circleStations.some(cs=>cs.id===s.id);
+    const isInterchange = s.interchange;
+    const col = isCircle ? '#FFCD00' : (lineColors[s.line]||'#888');
+    const r = isInterchange ? 10 : 7;
+
+    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+    g.setAttribute('id','dot-'+s.id);
+    g.setAttribute('class','station-dot');
+    g.setAttribute('transform',`translate(${s.pos[0]},${s.pos[1]})`);
+    g.style.cursor = 'pointer';
+
+    // Hit area (larger invisible circle for touch)
+    const hit = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    hit.setAttribute('r','16'); hit.setAttribute('fill','transparent');
+    g.appendChild(hit);
+
+    // White border
+    if (isInterchange) {
+      const border = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      border.setAttribute('r', r+3); border.setAttribute('fill','#fff');
+      g.appendChild(border);
+    }
+
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('r', r);
+    circle.setAttribute('fill', isCircle ? '#FFCD00' : (isInterchange ? col : '#ccc'));
+    circle.setAttribute('stroke', '#0A0E1A');
+    circle.setAttribute('stroke-width','1.5');
+    g.appendChild(circle);
+
+    g.addEventListener('click', ()=>tapStation(s.id));
+    g.addEventListener('touchstart', (e)=>{ e.preventDefault(); tapStation(s.id); }, {passive:false});
+    g.addEventListener('mouseenter', ()=>showTooltip(s, g));
+    g.addEventListener('mouseleave', hideTooltip);
+
+    svg.appendChild(g);
+  });
+
+  // Direction labels
+  const cwLabel = document.createElementNS('http://www.w3.org/2000/svg','text');
+  cwLabel.setAttribute('x','560'); cwLabel.setAttribute('y','200');
+  cwLabel.setAttribute('font-size','11'); cwLabel.setAttribute('fill','rgba(255,205,0,0.4)');
+  cwLabel.setAttribute('font-family','Nunito,sans-serif'); cwLabel.setAttribute('font-weight','bold');
+  cwLabel.textContent = '↻ CLOCKWISE';
+  svg.appendChild(cwLabel);
+
+  const acwLabel = document.createElementNS('http://www.w3.org/2000/svg','text');
+  acwLabel.setAttribute('x','150'); acwLabel.setAttribute('y','490');
+  acwLabel.setAttribute('font-size','11'); acwLabel.setAttribute('fill','rgba(255,205,0,0.4)');
+  acwLabel.setAttribute('font-family','Nunito,sans-serif'); acwLabel.setAttribute('font-weight','bold');
+  acwLabel.textContent = '↺ ANTI-CLOCKWISE';
+  svg.appendChild(acwLabel);
+}
+
+function showTooltip(s, g) {
+  const tt = document.getElementById('station-tooltip');
+  const rect = document.getElementById('map-container').getBoundingClientRect();
+  const svgEl = document.getElementById('tube-map');
+  const vbW=800, vbH=700;
+  const scaleX = svgEl.clientWidth/vbW;
+  const scaleY = svgEl.clientHeight/vbH;
+  tt.textContent = s.name;
+  tt.style.left = (s.pos[0]*scaleX)+'px';
+  tt.style.top = (s.pos[1]*scaleY)+'px';
+  tt.style.display = 'block';
+}
+function hideTooltip() {
+  document.getElementById('station-tooltip').style.display = 'none';
+}
+
+// ============================================================
+// MAP UPDATE (highlight path)
+// ============================================================
+function updateMap() {
+  // Reset all dots
+  document.querySelectorAll('.station-dot').forEach(dot => {
+    const id = dot.id.replace('dot-','');
+    const s = allStations[id];
+    if (!s) return;
+    const isCircle = circleStations.some(cs=>cs.id===id);
+    const isInterchange = s.interchange;
+    const circles = dot.querySelectorAll('circle');
+    const mainCircle = circles[circles.length-1];
+    if (mainCircle) {
+      const col = isCircle ? '#FFCD00' : (lineColors[s.line]||'#888');
+      mainCircle.setAttribute('fill', isCircle ? '#FFCD00' : (isInterchange ? col : '#ccc'));
+      mainCircle.setAttribute('r', isInterchange ? '10' : '7');
+    }
+  });
+
+  if (!ms.start) return;
+
+  const markStation = (id, color, r) => {
+    const dot = document.getElementById('dot-'+id);
+    if (!dot) return;
+    const circles = dot.querySelectorAll('circle');
+    const mainCircle = circles[circles.length-1];
+    if (mainCircle) { mainCircle.setAttribute('fill', color); mainCircle.setAttribute('r', String(r)); }
+  };
+
+  markStation(ms.start, '#E11B22', 13);
+  markStation(ms.end, '#FF6B35', 13);
+
+  ms.playerPath.forEach((id,i) => {
+    if (id !== ms.start && id !== ms.end) {
+      markStation(id, '#00C851', 9);
+    }
+  });
+
+  updatePathDisplay();
+  updateFarePreview();
 }
 
 // ============================================================
 // MISSIONS
 // ============================================================
 const missionGoals = [
-  {text:"Under 20 min", type:"time", value:20},
-  {text:"Max 2 changes", type:"changes", value:2},
-  {text:"Under £5 fare", type:"fare", value:5},
-  {text:"Under 30 min", type:"time", value:30},
-  {text:"Max 1 change", type:"changes", value:1},
-  {text:"Rush hour: any route!", type:"any", value:null},
-  {text:"Beat the AI!", type:"ai", value:null},
-  {text:"Under £4 fare", type:"fare", value:4},
-  {text:"Under 15 min", type:"time", value:15},
-  {text:"Cheapest route", type:"fare", value:3},
+  {text:'Under 25 min', type:'time', value:25},
+  {text:'Max 2 changes', type:'changes', value:2},
+  {text:'Under £5 fare', type:'fare', value:5},
+  {text:'Under 35 min', type:'time', value:35},
+  {text:'Max 1 change', type:'changes', value:1},
+  {text:'Beat the AI!', type:'ai', value:null},
+  {text:'Any route!', type:'any', value:null},
+  {text:'Under £4 fare', type:'fare', value:4},
+  {text:'Under 20 min', type:'time', value:20},
 ];
 
-const stationKeys = Object.keys(stations).filter(s => stationPos[s]);
-
-function getRandomStation(exclude=[]) {
-  let tries = 0;
-  while(tries++ < 100) {
-    const s = stationKeys[Math.floor(Math.random()*stationKeys.length)];
-    if (!exclude.includes(s)) return s;
-  }
-  return stationKeys[0];
+function getOuterStations() {
+  return Object.values(spokeStations).flat().map(s=>s.id);
 }
 
 function spinMission() {
-  if (missionState.travelling) return;
-  if (gameState.oyster < 20) {
-    showEvent("💸","Not enough Oyster! Need £20 to spin.",[]);
-    return;
-  }
-  
+  if (ms.travelling) return;
+  if (gs.oyster < 20) { showEventBrief('💸','Not enough Oyster! Need £20'); return; }
+
   playSound('spin');
-  gameState.oyster -= 20;
+  gs.oyster -= 20;
   updateOysterDisplay();
-  
-  // Reset mission
-  missionState = {
-    active: false, start: null, end: null, goal: null,
-    playerPath: [], confirmed: false, travelling: false,
-    startTime: null, elapsed: 0, timerInterval: null,
-    playerResult: null, aiResult: null
-  };
-  
-  // Spin reels
-  const reels = ['reel-start','reel-end','reel-goal'];
-  reels.forEach(r => {
-    const el = document.getElementById(r);
-    el.classList.add('spinning');
-    el.classList.remove('landed');
+  ms = { active:false, start:null, end:null, goal:null, playerPath:[], travelling:false,
+    startTime:null, elapsed:0, timerInterval:null, playerResult:null, direction:null };
+
+  ['reel-start','reel-end','reel-goal'].forEach(r => {
+    document.getElementById(r).classList.add('spinning');
+    document.getElementById(r).classList.remove('landed');
   });
-  
-  let spinCount = 0;
-  const spinInterval = setInterval(() => {
-    const tmpStart = getRandomStation();
-    const tmpEnd = getRandomStation([tmpStart]);
-    const tmpGoal = missionGoals[Math.floor(Math.random()*missionGoals.length)];
-    document.getElementById('reel-start').innerHTML = `🚇<br><span style="font-size:9px">${stations[tmpStart]?.substring(0,10)||'?'}</span>`;
-    document.getElementById('reel-end').innerHTML = `🏁<br><span style="font-size:9px">${stations[tmpEnd]?.substring(0,10)||'?'}</span>`;
-    document.getElementById('reel-goal').innerHTML = `🎯<br><span style="font-size:9px">${tmpGoal.text.substring(0,12)}</span>`;
-    spinCount++;
+
+  const outerStations = getOuterStations();
+  const si = setInterval(() => {
+    const ts = outerStations[Math.floor(Math.random()*outerStations.length)];
+    const te = outerStations[Math.floor(Math.random()*outerStations.length)];
+    const tg = missionGoals[Math.floor(Math.random()*missionGoals.length)];
+    document.getElementById('reel-start').innerHTML = `🚇<br><span style="font-size:8px">${(allStations[ts]?.name||'?').substring(0,11)}</span>`;
+    document.getElementById('reel-end').innerHTML = `🏁<br><span style="font-size:8px">${(allStations[te]?.name||'?').substring(0,11)}</span>`;
+    document.getElementById('reel-goal').innerHTML = `🎯<br><span style="font-size:8px">${tg.text.substring(0,12)}</span>`;
   }, 80);
-  
+
   setTimeout(() => {
-    clearInterval(spinInterval);
-    
-    let start = getRandomStation();
-    let end = getRandomStation([start]);
-    // Ensure route exists
-    let route = bfs(start,end);
-    let attempts = 0;
-    while ((!route || route.path.length < 3) && attempts++ < 20) {
-      start = getRandomStation();
-      end = getRandomStation([start]);
-      route = bfs(start,end);
+    clearInterval(si);
+    const outer = getOuterStations();
+    let start = outer[Math.floor(Math.random()*outer.length)];
+    let end = outer[Math.floor(Math.random()*outer.length)];
+    let tries = 0;
+    while ((end === start || !bfs(start,end)) && tries++ < 30) {
+      start = outer[Math.floor(Math.random()*outer.length)];
+      end = outer[Math.floor(Math.random()*outer.length)];
     }
     const goal = missionGoals[Math.floor(Math.random()*missionGoals.length)];
-    
-    missionState.start = start;
-    missionState.end = end;
-    missionState.goal = goal;
-    missionState.active = true;
-    missionState.playerPath = [start];
-    
-    reels.forEach(r => {
+
+    ms.start = start; ms.end = end; ms.goal = goal;
+    ms.active = true; ms.playerPath = [start];
+
+    ['reel-start','reel-end','reel-goal'].forEach(r => {
       document.getElementById(r).classList.remove('spinning');
       document.getElementById(r).classList.add('landed');
     });
-    
-    document.getElementById('reel-start').innerHTML = 
-      `🚇<br><span style="font-size:9px">${stations[start].substring(0,12)}</span>`;
-    document.getElementById('reel-end').innerHTML = 
-      `🏁<br><span style="font-size:9px">${stations[end].substring(0,12)}</span>`;
-    document.getElementById('reel-goal').innerHTML = 
-      `🎯<br><span style="font-size:9px">${goal.text}</span>`;
-    
+    document.getElementById('reel-start').innerHTML = `🚇<br><span style="font-size:8px">${(allStations[start]?.name||'?').substring(0,11)}</span>`;
+    document.getElementById('reel-end').innerHTML = `🏁<br><span style="font-size:8px">${(allStations[end]?.name||'?').substring(0,11)}</span>`;
+    document.getElementById('reel-goal').innerHTML = `🎯<br><span style="font-size:8px">${goal.text}</span>`;
+
     playSound('ding');
     updateMissionCard();
     updateMap();
-    updateBuildSection();
-    document.getElementById('phase-banner').textContent = '🗺️ BUILD YOUR ROUTE';
+    document.getElementById('build-section').style.display = 'block';
     document.getElementById('build-section-map').style.display = 'block';
-    
-    saveState();
+    document.getElementById('phase-banner').textContent = '🗺️ TAP YOUR START STATION';
+    save();
   }, 1800);
 }
 
 function updateMissionCard() {
-  if (!missionState.start) return;
-  const mc = document.getElementById('mission-card');
-  mc.innerHTML = `
+  if (!ms.start) return;
+  document.getElementById('mission-card').innerHTML = `
     <h3>🎯 ACTIVE MISSION</h3>
-    <div class="mission-route">${stations[missionState.start]} → ${stations[missionState.end]}</div>
+    <div class="mission-route">${allStations[ms.start]?.name} → ${allStations[ms.end]?.name}</div>
     <div class="mission-detail">
-      <span class="mission-badge">🎯 ${missionState.goal.text}</span>
-      <span class="mission-badge">💰 Oyster: £${gameState.oyster.toFixed(2)}</span>
+      <span class="mission-badge">🎯 ${ms.goal.text}</span>
+      <span class="mission-badge">💰 £${gs.oyster.toFixed(2)}</span>
     </div>
-  `;
+    <p style="font-size:11px;color:var(--text-dim);margin-top:4px">Enter Circle → travel rim → exit to destination</p>`;
 }
 
 // ============================================================
-// MAP SVG
+// STATION TAPPING
 // ============================================================
-function buildMap() {
-  const svg = document.getElementById('tube-map');
-  const W=900, H=600;
-  
-  // Background
-  svg.innerHTML = `<rect width="${W}" height="${H}" fill="#0A0E1A"/>
-    <text x="${W/2}" y="${H/2}" text-anchor="middle" dominant-baseline="middle" 
-      font-size="200" fill="rgba(255,255,255,0.02)" font-family="'Bebas Neue',sans-serif" font-weight="bold">
-      TfL
-    </text>`;
-  
-  // Draw lines
-  for (const [lineCode, stops] of Object.entries(stationsOnLine)) {
-    const col = lineColors[lineCode] || '#888';
-    const validStops = stops.filter(s => stationPos[s]);
-    for (let i=0; i<validStops.length-1; i++) {
-      const a = stationPos[validStops[i]];
-      const b = stationPos[validStops[i+1]];
-      if (!a||!b) continue;
-      const el = document.createElementNS('http://www.w3.org/2000/svg','line');
-      el.setAttribute('x1',a[0]); el.setAttribute('y1',a[1]);
-      el.setAttribute('x2',b[0]); el.setAttribute('y2',b[1]);
-      el.setAttribute('stroke',col); el.setAttribute('stroke-width','3');
-      el.setAttribute('stroke-linecap','round'); el.setAttribute('opacity','0.7');
-      svg.appendChild(el);
-    }
-  }
-  
-  // Station dots
-  const drawnStations = new Set();
-  for (const [code, pos] of Object.entries(stationPos)) {
-    if (!stations[code] || drawnStations.has(code)) continue;
-    drawnStations.add(code);
-    
-    const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-    g.setAttribute('class','station-dot');
-    g.setAttribute('id','dot-'+code);
-    g.setAttribute('transform',`translate(${pos[0]},${pos[1]})`);
-    g.addEventListener('click', ()=>tapStation(code));
-    
-    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circle.setAttribute('r','5'); circle.setAttribute('fill','#fff');
-    circle.setAttribute('stroke','#333'); circle.setAttribute('stroke-width','1.5');
-    
-    const text = document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('y','16'); text.setAttribute('text-anchor','middle');
-    text.setAttribute('font-size','7'); text.setAttribute('fill','rgba(255,255,255,0.6)');
-    text.setAttribute('font-family','Nunito,sans-serif'); text.setAttribute('font-weight','bold');
-    text.textContent = stations[code]?.length > 12 ? stations[code].substring(0,10)+'…' : (stations[code]||code);
-    
-    g.appendChild(circle);
-    g.appendChild(text);
-    svg.appendChild(g);
-  }
-}
-
-function updateMap() {
-  // Reset all dots
-  document.querySelectorAll('.station-dot').forEach(d => {
-    d.classList.remove('selected','on-path','start-station','end-station');
-    const c = d.querySelector('circle');
-    if (c) { c.setAttribute('fill','#fff'); c.setAttribute('r','5'); }
-  });
-  
-  if (!missionState.start) return;
-  
-  // Mark start/end
-  const startDot = document.getElementById('dot-'+missionState.start);
-  const endDot = document.getElementById('dot-'+missionState.end);
-  if (startDot) {
-    startDot.classList.add('start-station');
-    const c = startDot.querySelector('circle');
-    if (c) { c.setAttribute('fill','#E11B22'); c.setAttribute('r','9'); }
-  }
-  if (endDot) {
-    endDot.classList.add('end-station');
-    const c = endDot.querySelector('circle');
-    if (c) { c.setAttribute('fill','#FF6B35'); c.setAttribute('r','9'); }
-  }
-  
-  // Mark path
-  missionState.playerPath.forEach(s => {
-    const dot = document.getElementById('dot-'+s);
-    if (dot && s !== missionState.start && s !== missionState.end) {
-      dot.classList.add('on-path');
-      const c = dot.querySelector('circle');
-      if (c) { c.setAttribute('fill','#00C851'); c.setAttribute('r','7'); }
-    }
-  });
-  
-  // Update path display
-  updatePathDisplay();
-  updateFarePreview();
-}
-
-function tapStation(code) {
-  if (!missionState.active || missionState.travelling) return;
-  
-  // Can't retap start
-  if (code === missionState.start && missionState.playerPath.length === 1) return;
-  
-  // Check if already in path (except start)
-  if (missionState.playerPath.includes(code) && code !== missionState.start) {
-    // Trim path to this point
-    const idx = missionState.playerPath.indexOf(code);
-    missionState.playerPath = missionState.playerPath.slice(0, idx+1);
-  } else {
-    // Add to path
-    missionState.playerPath.push(code);
-  }
-  
-  playSound('chug');
-  updateMap();
-  
-  // Show build section
-  document.getElementById('build-section').style.display = 'block';
-  
-  // Enable travel if end station reached
-  const travelBtn = document.getElementById('btn-travel');
-  if (missionState.playerPath[missionState.playerPath.length-1] === missionState.end && missionState.playerPath.length >= 2) {
-    travelBtn.disabled = false;
-  } else {
-    travelBtn.disabled = true;
-  }
-}
-
-function updatePathDisplay() {
-  const pd = document.getElementById('path-display');
-  if (!pd) return;
-  pd.innerHTML = missionState.playerPath.map((s,i) => {
-    const line = i>0 ? getLineForEdge(missionState.playerPath[i-1], s) : null;
-    const col = line ? lineColors[line] : '#888';
-    return `<span class="path-node" style="border-left:3px solid ${col}">
-      ${i===0?'🚇':i===missionState.playerPath.length-1&&s===missionState.end?'🏁':'●'} 
-      ${stations[s]?.substring(0,8)||s}
-    </span>`;
-  }).join('');
-}
-
-function updateFarePreview() {
-  const path = missionState.playerPath;
-  if (path.length < 2) {
-    document.getElementById('route-display').textContent = 'Tap stations to build route';
-    document.getElementById('fare-display').textContent = '£0.00';
-    document.getElementById('time-display').textContent = '0 min';
-    document.getElementById('changes-display').textContent = '0';
+function tapStation(id) {
+  if (!ms.active || ms.travelling) return;
+  if (id === ms.start && ms.playerPath.length === 1) {
+    showEventBrief('🚇', `Start: ${allStations[id]?.name}. Now tap towards the Circle!`);
     return;
   }
-  const result = calculateRoute(path);
-  document.getElementById('route-display').textContent = `${path.length} stations`;
-  document.getElementById('fare-display').textContent = `£${result.fare.toFixed(2)}`;
-  document.getElementById('time-display').textContent = `${result.time} min`;
-  document.getElementById('changes-display').textContent = result.changes;
+
+  if (ms.playerPath.includes(id)) {
+    const idx = ms.playerPath.indexOf(id);
+    if (idx > 0) { ms.playerPath = ms.playerPath.slice(0, idx+1); }
+  } else {
+    // Check adjacency
+    const last = ms.playerPath[ms.playerPath.length-1];
+    const edge = (graph[last]||[]).find(e=>e.to===id);
+    if (!edge) {
+      showEventBrief('⚠️', `${allStations[id]?.name} isn't connected to ${allStations[last]?.name}!`);
+      return;
+    }
+    ms.playerPath.push(id);
+  }
+
+  playSound('chug');
+
+  // Show direction picker when entering Circle
+  const last = ms.playerPath[ms.playerPath.length-1];
+  const onCircle = circleStations.some(cs=>cs.id===last);
+  if (onCircle && ms.playerPath.length > 1 && !ms.direction) {
+    document.getElementById('direction-picker').style.display = 'block';
+    document.getElementById('phase-banner').textContent = '↻ PICK DIRECTION ON CIRCLE';
+  }
+
+  updateMap();
+
+  const endReached = ms.playerPath[ms.playerPath.length-1] === ms.end;
+  document.getElementById('btn-travel').disabled = !endReached;
+  if (endReached) {
+    document.getElementById('phase-banner').textContent = '🚂 READY TO TRAVEL!';
+    playSound('ding');
+  }
 }
 
+function setDirection(dir) {
+  ms.direction = dir;
+  document.getElementById('dir-cw').classList.toggle('selected', dir==='cw');
+  document.getElementById('dir-acw').classList.toggle('selected', dir==='acw');
+  document.getElementById('phase-banner').textContent = dir==='cw' ? '↻ CLOCKWISE — TAP ONWARDS' : '↺ ANTI-CLOCK — TAP ONWARDS';
+}
+
+function undoLastStation() {
+  if (ms.playerPath.length > 1) {
+    ms.playerPath.pop();
+    document.getElementById('btn-travel').disabled = true;
+    updateMap();
+    // Hide direction picker if no longer on Circle
+    const last = ms.playerPath[ms.playerPath.length-1];
+    const onCircle = circleStations.some(cs=>cs.id===last);
+    if (!onCircle) {
+      ms.direction = null;
+      document.getElementById('direction-picker').style.display = 'none';
+      document.getElementById('dir-cw').classList.remove('selected');
+      document.getElementById('dir-acw').classList.remove('selected');
+    }
+  }
+}
+
+function showHint() {
+  if (!ms.start || !ms.end) return;
+  const opt = bfs(ms.start, ms.end);
+  const hb = document.getElementById('hint-box');
+  if (opt && opt.path.length > 1) {
+    const next = allStations[opt.path[1]]?.name || opt.path[1];
+    document.getElementById('hint-text').textContent =
+      `Optimal: ${opt.path.length} stops, ~${opt.time}min, ${opt.changes} changes. Next tap: ${next}`;
+  } else {
+    document.getElementById('hint-text').textContent = 'Build a path from your start through the Circle to your destination!';
+  }
+  hb.classList.add('show'); hb.style.display = 'block';
+  setTimeout(()=>{ hb.style.display='none'; hb.classList.remove('show'); }, 5000);
+}
+
+// ============================================================
+// FARE/ROUTE CALC
+// ============================================================
 function calculateRoute(path) {
-  let time = 0, changes = 0, lastLine = null;
-  const startZone = zones[path[0]] || 1;
-  const endZone = zones[path[path.length-1]] || 1;
-  const maxZone = Math.max(startZone, endZone);
-  
+  let time=0, changes=0, lastLine=null;
   for (let i=0; i<path.length-1; i++) {
     const edge = (graph[path[i]]||[]).find(e=>e.to===path[i+1]);
     const t = edge ? edge.time : 3;
     const line = edge ? edge.line : null;
-    if (lastLine && line && lastLine !== line) {
-      changes++;
-      time += 4;
-    }
+    if (lastLine && line && lastLine !== line) { changes++; time+=4; }
     time += t;
     lastLine = line || lastLine;
   }
-  
-  // Apply card bonuses
-  const activeCards = gameState.deck.filter(c=>c.active);
+  const active = gs.deck.filter(c=>c.active);
   let timeMod = 0;
-  activeCards.forEach(c => {
+  active.forEach(c => {
     const def = cardDefs.find(d=>d.id===c.id);
     if (!def) return;
     if (def.ability.includes('-2min')) timeMod -= 2;
@@ -1157,650 +1254,484 @@ function calculateRoute(path) {
     if (def.ability.includes('-1min')) timeMod -= 1;
   });
   time = Math.max(1, time + timeMod);
-  
-  // Fare: Z1=£2.50, +£1.50/change, +£0.50/extra zone, Elizabeth cheap
-  let fare = 2.50;
-  if (maxZone > 1) fare += (maxZone-1)*0.50;
-  fare += changes * 1.50;
-  
-  // Oyster cap
-  const hasOysterKing = activeCards.some(c=>c.id==='SPEC2');
-  if (hasOysterKing) fare *= 0.8;
-  fare = Math.min(fare, 15);
-  fare = Math.max(fare, 1.50);
-  
-  if (gameState.slowMode) time *= 2;
-  
+  if (gs.slowMode) time = Math.round(time * 1.8);
+
+  const startZ = zones[path[0]]||1, endZ = zones[path[path.length-1]]||1;
+  const maxZ = Math.max(startZ, endZ);
+  let fare = 2.50 + (maxZ-1)*0.5 + changes*1.50;
+  if (active.some(c=>c.id==='SPEC2')) fare *= 0.8;
+  fare = Math.max(1.50, Math.min(fare, 14));
   return {time, changes, fare: parseFloat(fare.toFixed(2))};
 }
 
-function updateBuildSection() {
-  document.getElementById('build-section').style.display = missionState.active ? 'block' : 'none';
-  document.getElementById('btn-travel').disabled = true;
-  updateFarePreview();
+function updatePathDisplay() {
+  const pd = document.getElementById('path-display');
+  if (!pd) return;
+  pd.innerHTML = ms.playerPath.map((id,i)=>{
+    const line = i>0 ? getEdgeLine(ms.playerPath[i-1],id) : null;
+    const col = line ? (lineColors[line]||'#888') : '#888';
+    const name = (allStations[id]?.name||id).substring(0,9);
+    return `<span class="path-node" style="border-left:3px solid ${col}">
+      ${i===0?'🚇':id===ms.end?'🏁':'●'} ${name}
+    </span>`;
+  }).join('');
 }
 
-// ============================================================
-// UNDO / HINT
-// ============================================================
-function undoLastStation() {
-  if (missionState.playerPath.length > 1) {
-    missionState.playerPath.pop();
-    updateMap();
-    const travelBtn = document.getElementById('btn-travel');
-    travelBtn.disabled = true;
+function updateFarePreview() {
+  if (ms.playerPath.length < 2) {
+    document.getElementById('route-display').textContent = 'Tap stations...';
+    document.getElementById('fare-display').textContent = '£0.00';
+    document.getElementById('time-display').textContent = '0 min';
+    document.getElementById('changes-display').textContent = '0';
+    return;
   }
-}
-
-function showHint() {
-  if (!missionState.start || !missionState.end) return;
-  const opt = bfs(missionState.start, missionState.end);
-  const hb = document.getElementById('hint-box');
-  const ht = document.getElementById('hint-text');
-  if (opt) {
-    const next = opt.path[1];
-    ht.textContent = `Optimal: ${opt.path.length} stops, ${opt.time}min, ${opt.changes} changes. Next: ${stations[next]||next}`;
-  } else {
-    ht.textContent = 'No direct route found — try a different path!';
-  }
-  hb.classList.add('show');
-  hb.style.display = 'block';
-  setTimeout(()=>{ hb.classList.remove('show'); hb.style.display='none'; }, 5000);
+  const r = calculateRoute(ms.playerPath);
+  document.getElementById('route-display').textContent = `${ms.playerPath.length} stops`;
+  document.getElementById('fare-display').textContent = `£${r.fare.toFixed(2)}`;
+  document.getElementById('time-display').textContent = `${r.time} min`;
+  document.getElementById('changes-display').textContent = r.changes;
 }
 
 // ============================================================
 // TRAVEL
 // ============================================================
 function startTravel() {
-  if (!missionState.active || missionState.travelling) return;
-  if (missionState.playerPath[missionState.playerPath.length-1] !== missionState.end) return;
-  
-  const routeResult = calculateRoute(missionState.playerPath);
-  const fare = routeResult.fare;
-  
-  if (gameState.oyster < fare) {
-    showEvent("💸",`Not enough Oyster! Need £${fare.toFixed(2)}`,[]);
-    return;
-  }
-  
-  gameState.oyster -= fare;
+  if (!ms.active || ms.travelling) return;
+  if (ms.playerPath[ms.playerPath.length-1] !== ms.end) return;
+  const r = calculateRoute(ms.playerPath);
+  if (gs.oyster < r.fare) { showEventBrief('💸',`Need £${r.fare.toFixed(2)}!`); return; }
+
+  gs.oyster -= r.fare;
   updateOysterDisplay();
-  
-  missionState.travelling = true;
-  missionState.startTime = Date.now();
-  missionState.playerResult = routeResult;
-  
-  // AI BFS
-  const aiRoute = bfs(missionState.start, missionState.end);
-  missionState.aiResult = aiRoute ? calculateRoute(aiRoute.path) : null;
-  
+  ms.travelling = true;
+  ms.startTime = Date.now();
+  ms.playerResult = r;
   document.getElementById('phase-banner').textContent = '🚂 TRAVELLING...';
   document.getElementById('timer-display').style.display = 'block';
-  
-  // Start timer
-  missionState.timerInterval = setInterval(() => {
-    missionState.elapsed = Math.floor((Date.now() - missionState.startTime)/1000);
-    const m = Math.floor(missionState.elapsed/60);
-    const s = missionState.elapsed%60;
+  document.getElementById('direction-picker').style.display = 'none';
+  document.getElementById('build-section').style.display = 'none';
+
+  ms.timerInterval = setInterval(()=>{
+    ms.elapsed = Math.floor((Date.now()-ms.startTime)/1000);
+    const m=Math.floor(ms.elapsed/60), s=ms.elapsed%60;
     document.getElementById('timer-display').textContent = `⏱ ${m}:${s.toString().padStart(2,'0')}`;
-  }, 1000);
-  
+  },1000);
+
   animateTrain();
 }
 
 function animateTrain() {
-  const path = missionState.playerPath;
+  const path = ms.playerPath;
   const train = document.getElementById('train-marker');
   train.style.display = 'flex';
-  
   let idx = 0;
+  const svgEl = document.getElementById('tube-map');
+  const mc = document.getElementById('map-container');
+
   const step = () => {
     if (idx >= path.length) {
-      // Journey complete
-      setTimeout(()=>{
-        train.style.display = 'none';
-        finishTravel();
-      }, 500);
+      setTimeout(()=>{ train.style.display='none'; finishTravel(); },400);
       return;
     }
-    
-    const pos = stationPos[path[idx]];
-    if (pos) {
-      const rect = document.getElementById('map-container').getBoundingClientRect();
-      const svg = document.getElementById('tube-map');
-      const vbW=900, vbH=600;
-      const scaleX = rect.width/vbW;
-      const scaleY = rect.height/vbH;
-      train.style.left = (pos[0]*scaleX - 18) + 'px';
-      train.style.top = (pos[1]*scaleY - 10) + 'px';
+    const s = allStations[path[idx]];
+    if (s) {
+      const vbW=800, vbH=700;
+      const scaleX = svgEl.clientWidth/vbW;
+      const scaleY = svgEl.clientHeight/vbH;
+      train.style.left = (s.pos[0]*scaleX-16)+'px';
+      train.style.top = (s.pos[1]*scaleY-9)+'px';
     }
-    
-    // Random events
-    if (idx > 0 && Math.random() < 0.18) {
-      triggerRandomEvent(idx, path.length);
-    }
-    
+    if (idx > 0 && Math.random() < 0.16) triggerRandomEvent();
     idx++;
-    const delay = (gameState.slowMode ? 2400 : 1200) / path.length * 4;
-    setTimeout(step, Math.max(600, delay));
+    const delay = gs.slowMode ? 1800 : 900;
+    setTimeout(step, delay);
   };
-  
   step();
 }
 
-function triggerRandomEvent(idx, total) {
+function triggerRandomEvent() {
+  const hasNinja = gs.deck.some(c=>c.id==='J02'&&c.active);
   const events = [
-    {icon:"⚠️", msg:"Signal failure! +2 min delay", effect:()=>{ missionState.playerResult.time += 2; }},
-    {icon:"😈", msg:"Someone nicked your Oyster card! Lost a card!", effect:()=>{ 
-      if (gameState.deck.length > 0) {
-        const lost = gameState.deck.splice(Math.floor(Math.random()*gameState.deck.length),1)[0];
-        const def = cardDefs.find(d=>d.id===lost.id);
-        document.getElementById('event-msg').textContent = `Snatched! Lost "${def?.name||'card'}" 😱`;
+    {icon:'⚠️', msg:'Signal failure! +2 min', fn:()=>{ ms.playerResult.time+=2; }},
+    {icon:'😈', msg:'Pickpocket! Lost a card 😱', fn:()=>{
+      if (hasNinja) { showEventBrief('😎','Jubilee Ninja blocked the mugger!'); return; }
+      if (gs.collection.length>0) {
+        const lost = gs.collection.splice(Math.floor(Math.random()*gs.collection.length),1)[0];
+        const d=cardDefs.find(x=>x.id===lost.id);
+        document.getElementById('event-msg').textContent=`Lost "${d?.name||'card'}" 😱`;
       }
     }},
-    {icon:"🎁", msg:"Bonus card stolen from AI!", effect:()=>{ 
-      const rand = cardDefs[Math.floor(Math.random()*cardDefs.length)];
-      addCard(rand.id);
-      document.getElementById('event-msg').textContent = `Found rare card: ${rand.name}! 🎉`;
+    {icon:'🎁', msg:'Found a bonus card!', fn:()=>{
+      const pool=cardDefs.filter(c=>!gs.collection.some(gc=>gc.id===c.id));
+      if(pool.length>0){ const c=pool[Math.floor(Math.random()*pool.length)]; addCard(c.id);
+        document.getElementById('event-msg').textContent=`Found: ${c.name}!`; }
     }},
-    {icon:"⚡", msg:"Express service! -1 min", effect:()=>{ missionState.playerResult.time = Math.max(1,missionState.playerResult.time-1); }},
-    {icon:"🐌", msg:"Leaf on the line... +3 min", effect:()=>{ missionState.playerResult.time += 3; }},
+    {icon:'⚡', msg:'Express service! -1 min', fn:()=>{ ms.playerResult.time=Math.max(1,ms.playerResult.time-1); }},
+    {icon:'🍂', msg:'Leaf on the line... +3 min', fn:()=>{ ms.playerResult.time+=3; }},
   ];
-  
-  // Check for card immunity
-  const hasNinja = gameState.deck.some(c=>c.id==='J02'&&c.active);
   const ev = events[Math.floor(Math.random()*events.length)];
-  
-  if (ev.icon==='😈' && hasNinja) {
-    showEventBrief("😎","Jubilee Ninja blocked the mugger!");
-    return;
-  }
-  
-  ev.effect();
+  ev.fn();
   showEventBrief(ev.icon, ev.msg);
   playSound('buzz');
 }
 
 function showEventBrief(icon, msg) {
-  const popup = document.getElementById('event-popup');
   document.getElementById('event-icon').textContent = icon;
   document.getElementById('event-msg').textContent = msg;
-  popup.classList.add('show');
-  setTimeout(()=>popup.classList.remove('show'), 2500);
+  document.getElementById('event-popup').classList.add('show');
+  setTimeout(()=>document.getElementById('event-popup').classList.remove('show'), 2600);
 }
+function dismissEvent() { document.getElementById('event-popup').classList.remove('show'); }
 
-function showEvent(icon, msg, actions) {
-  const popup = document.getElementById('event-popup');
-  document.getElementById('event-icon').textContent = icon;
-  document.getElementById('event-msg').textContent = msg;
-  popup.classList.add('show');
-}
-
-function dismissEvent() {
-  document.getElementById('event-popup').classList.remove('show');
-}
-
+// ============================================================
+// FINISH TRAVEL
+// ============================================================
 function finishTravel() {
-  clearInterval(missionState.timerInterval);
+  clearInterval(ms.timerInterval);
   document.getElementById('timer-display').style.display = 'none';
-  
-  const result = missionState.playerResult;
-  const goal = missionState.goal;
-  const aiResult = missionState.aiResult;
-  
-  // Check goal
+  const result = ms.playerResult;
+  const goal = ms.goal;
+
   let goalMet = false;
-  if (goal.type === 'time') goalMet = result.time <= goal.value;
-  else if (goal.type === 'changes') goalMet = result.changes <= goal.value;
-  else if (goal.type === 'fare') goalMet = result.fare <= goal.value;
-  else if (goal.type === 'any') goalMet = true;
-  else if (goal.type === 'ai') goalMet = aiResult ? result.time <= aiResult.time : true;
-  
-  // Score = time * changes+1 * fare / 100 (lower=better)
-  const score = Math.max(1, Math.round((result.time * (result.changes+1) * result.fare) / 10));
-  
-  // Win cards
+  if (goal.type==='time') goalMet = result.time <= goal.value;
+  else if (goal.type==='changes') goalMet = result.changes <= goal.value;
+  else if (goal.type==='fare') goalMet = result.fare <= goal.value;
+  else if (goal.type==='any') goalMet = true;
+  else if (goal.type==='ai') {
+    const ai = bfs(ms.start, ms.end);
+    if (ai) { const air = calculateRoute(ai.path); goalMet = result.time <= air.time; }
+    else goalMet = true;
+  }
+
+  const score = Math.max(1, Math.round((result.time*(result.changes+1)*result.fare)/10));
   const wonCards = [];
   if (goalMet) {
-    const cardPool = cardDefs.filter(c => !gameState.collection.some(gc=>gc.id===c.id));
-    if (cardPool.length > 0) {
-      const card = cardPool[Math.floor(Math.random()*cardPool.length)];
-      wonCards.push(card);
-      addCard(card.id);
-      playSound('cha');
-    }
-    // Oyster refund partial
-    const bonus = goalMet ? 5 : 2;
-    gameState.oyster += bonus;
-    updateOysterDisplay();
+    const pool = cardDefs.filter(c=>!gs.collection.some(gc=>gc.id===c.id));
+    if (pool.length>0) { const c=pool[Math.floor(Math.random()*pool.length)]; wonCards.push(c); addCard(c.id); }
+    gs.oyster += 5; updateOysterDisplay(); playSound('cha');
+    gs.streak++; gs.wonToday=true;
   } else {
     playSound('buzz');
   }
-  
-  // PB check
-  const routeKey = `${missionState.start}→${missionState.end}`;
-  const existing = gameState.pbs.find(p=>p.route===routeKey);
+
+  const routeKey = `${allStations[ms.start]?.name}→${allStations[ms.end]?.name}`;
   let isPB = false;
+  const existing = gs.pbs.find(p=>p.route===routeKey);
   if (!existing || score < existing.score) {
-    gameState.pbs = gameState.pbs.filter(p=>p.route!==routeKey);
-    gameState.pbs.push({route:`${stations[missionState.start]}→${stations[missionState.end]}`, score, time:result.time});
-    gameState.pbs.sort((a,b)=>a.score-b.score);
-    if (gameState.pbs.length > 10) gameState.pbs = gameState.pbs.slice(0,10);
+    gs.pbs = gs.pbs.filter(p=>p.route!==routeKey);
+    gs.pbs.push({route:routeKey, score, time:result.time});
+    gs.pbs.sort((a,b)=>a.score-b.score);
+    if (gs.pbs.length>10) gs.pbs=gs.pbs.slice(0,10);
     isPB = true;
   }
-  
-  // Worsts
-  gameState.worsts.push({route:`${stations[missionState.start]}→${stations[missionState.end]}`, score, time:result.time});
-  gameState.worsts.sort((a,b)=>b.score-a.score);
-  if (gameState.worsts.length>5) gameState.worsts=gameState.worsts.slice(0,5);
-  
-  // Streak
-  if (goalMet) {
-    gameState.streak++;
-    gameState.wonToday = true;
-  }
-  
-  // Milestone check
+  gs.worsts.push({route:routeKey, score, time:result.time});
+  gs.worsts.sort((a,b)=>b.score-a.score);
+  if (gs.worsts.length>5) gs.worsts=gs.worsts.slice(0,5);
+
   checkMilestones();
-  
-  saveState();
+  save();
   showResult(goalMet, score, result, wonCards, isPB);
-  
-  missionState.active = false;
-  missionState.travelling = false;
-  document.getElementById('phase-banner').textContent = '🎰 SPIN TO START';
-  document.getElementById('build-section-map').style.display = 'none';
+  ms.active=false; ms.travelling=false;
+  document.getElementById('phase-banner').textContent='🎰 SPIN TO START';
+  document.getElementById('build-section-map').style.display='none';
 }
 
 function addCard(id) {
-  const def = cardDefs.find(d=>d.id===id);
-  if (!def) return;
-  // Check for dupe
-  if (gameState.collection.some(c=>c.id===id)) {
-    gameState.oyster += 2; // dupe → £2
-    updateOysterDisplay();
-    return;
-  }
-  const card = {id, active: gameState.deck.filter(c=>c.active).length < 5};
-  gameState.collection.push(card);
-  gameState.deck = [...gameState.collection];
+  if (gs.collection.some(c=>c.id===id)) { gs.oyster+=2; updateOysterDisplay(); return; }
+  const active = gs.collection.filter(c=>c.active).length;
+  gs.collection.push({id, active: active<5});
+  gs.deck = [...gs.collection];
 }
 
 // ============================================================
-// RESULT SCREEN
+// RESULT
 // ============================================================
 function showResult(won, score, result, wonCards, isPB) {
-  const rs = document.getElementById('result-screen');
-  rs.classList.remove('hidden');
-  
+  document.getElementById('result-screen').classList.remove('hidden');
   document.getElementById('result-title').textContent = won ? '🏆 MISSION COMPLETE!' : '💀 MISSION FAILED!';
   document.getElementById('result-title').style.color = won ? 'var(--gold)' : 'var(--tfl-red)';
   document.getElementById('result-score').textContent = score;
-  document.getElementById('result-time').textContent = `⏱ Time: ${Math.floor(result.time/60)}:${(result.time%60).toString().padStart(2,'0')} (${result.time}min)`;
+  document.getElementById('result-time').textContent = `⏱ ${result.time} min`;
   document.getElementById('result-changes').textContent = `🔄 Changes: ${result.changes}`;
   document.getElementById('result-fare').textContent = `💰 Fare: £${result.fare.toFixed(2)}`;
-  document.getElementById('result-oyster').textContent = `🃏 Oyster Balance: £${gameState.oyster.toFixed(2)}`;
-  document.getElementById('result-pb').textContent = isPB ? '🏅 NEW PERSONAL BEST!' : won ? '🎯 Goal achieved!' : '💨 Better luck next time!';
-  
-  const rc = document.getElementById('result-cards');
-  rc.innerHTML = wonCards.length > 0 ? wonCards.map(c => renderCardMini(c)).join('') : '<p style="color:var(--text-dim)">No cards this run</p>';
-  
+  document.getElementById('result-oyster').textContent = `🃏 Oyster: £${gs.oyster.toFixed(2)}`;
+  document.getElementById('result-pb').textContent = isPB ? '🏅 NEW PERSONAL BEST!' : (won?'🎯 Goal achieved!':'💨 Try again!');
+  document.getElementById('result-cards').innerHTML = wonCards.length>0
+    ? wonCards.map(c=>`<div class="tube-card" style="width:85px;background:linear-gradient(135deg,${c.color}AA,${c.color}33)">
+        <div class="card-line" style="color:${c.color}">${c.line}</div>
+        <div class="card-name">${c.name}</div>
+        <div class="card-stats">⚡${c.stats.speed}</div>
+        <div class="card-ability">${c.ability}</div></div>`).join('')
+    : '<p style="color:var(--text-dim);font-size:13px">No cards this run</p>';
   if (won) playSound('ding');
 }
-
-function renderCardMini(cardDef) {
-  return `<div class="tube-card" style="width:90px;background:linear-gradient(135deg,${cardDef.color}AA,${cardDef.color}44)">
-    <div class="card-line" style="color:${cardDef.color}">${lineNames[cardDef.line]?.substring(0,4)||cardDef.line}</div>
-    <div class="card-name">${cardDef.name}</div>
-    <div class="card-stats">⚡${cardDef.stats.speed} 👥${cardDef.stats.crowd}</div>
-    <div class="card-ability">${cardDef.ability}</div>
-  </div>`;
-}
-
 function closeResult() {
   document.getElementById('result-screen').classList.add('hidden');
-  updateOysterDisplay();
-  updateScoresTab();
-  renderCards();
-  renderGallery();
+  renderCards(); updateScoresTab(); renderGallery(); updateOysterDisplay();
 }
 
 // ============================================================
-// CARDS RENDERING
+// CARDS
 // ============================================================
 function renderCards() {
-  const active = gameState.deck.filter(c=>c.active);
   const dg = document.getElementById('deck-grid');
   const cg = document.getElementById('collection-grid');
-  
-  dg.innerHTML = '';
-  cg.innerHTML = '';
-  
-  gameState.collection.forEach(c => {
+  dg.innerHTML=''; cg.innerHTML='';
+  gs.collection.forEach(c=>{
     const def = cardDefs.find(d=>d.id===c.id);
     if (!def) return;
-    const isActive = c.active;
     const el = document.createElement('div');
-    el.className = 'tube-card' + (isActive?' selected':'');
-    el.style.background = `linear-gradient(135deg,${def.color}AA,${def.color}33)`;
-    el.innerHTML = `
-      <div class="card-line" style="color:${def.color}">${lineNames[def.line]?.substring(0,3)||def.line}</div>
+    el.className='tube-card'+(c.active?' selected':'');
+    el.style.background=`linear-gradient(135deg,${def.color}AA,${def.color}33)`;
+    el.innerHTML=`<div class="card-line" style="color:${def.color}">${def.line}</div>
       <div class="card-name">${def.name}</div>
       <div class="card-stats">⚡${def.stats.speed} 👥${def.stats.crowd}</div>
       <div class="card-ability">${def.ability}</div>
-      ${isActive ? '<div style="color:var(--gold);font-size:10px;margin-top:4px">★ ACTIVE</div>' : ''}
-    `;
-    el.onclick = () => toggleCard(c, el, active);
-    
-    if (isActive) dg.appendChild(el.cloneNode(true));
+      ${c.active?'<div style="color:var(--gold);font-size:9px;margin-top:3px">★ ACTIVE</div>':''}`;
+    el.onclick=()=>{ toggleCard(c); };
+    if (c.active) dg.appendChild(el.cloneNode(true));
     cg.appendChild(el);
-    
-    el.onclick = () => toggleCard(c, el, active);
   });
-  
-  // Re-attach onclick after clone
-  dg.querySelectorAll('.tube-card').forEach((el,i) => {
-    const card = gameState.collection.filter(c=>c.active)[i];
-    if (card) el.onclick = ()=>toggleCard(card, el, active);
+  dg.querySelectorAll('.tube-card').forEach((el,i)=>{
+    const card = gs.collection.filter(c=>c.active)[i];
+    if (card) el.onclick=()=>toggleCard(card);
   });
 }
-
-function toggleCard(card, el, active) {
-  if (card.active) {
-    card.active = false;
-  } else {
-    if (active.length >= 5) {
-      // Deactivate first active
-      const first = gameState.collection.find(c=>c.active);
-      if (first) first.active = false;
-    }
-    card.active = true;
+function toggleCard(card) {
+  if (card.active) { card.active=false; }
+  else {
+    const active = gs.collection.filter(c=>c.active);
+    if (active.length>=5) active[0].active=false;
+    card.active=true;
   }
-  playSound('chug');
-  renderCards();
-  saveState();
+  playSound('chug'); renderCards(); save();
 }
 
 // ============================================================
 // SCORES / GALLERY
 // ============================================================
 function updateScoresTab() {
-  const tbody = document.getElementById('pb-tbody');
-  const wtbody = document.getElementById('worst-tbody');
-  tbody.innerHTML = gameState.pbs.map(p => 
-    `<tr><td>${p.route}</td><td>${p.score}</td><td>${p.time}min</td></tr>`
-  ).join('') || '<tr><td colspan="3" style="color:var(--text-dim)">No runs yet!</td></tr>';
-  
-  wtbody.innerHTML = gameState.worsts.map(p => 
-    `<tr><td>${p.route}</td><td>${p.score}</td><td>${p.time}min</td></tr>`
-  ).join('') || '<tr><td colspan="3" style="color:var(--text-dim)">No runs yet!</td></tr>';
-  
-  renderMilestonesBadges();
+  document.getElementById('pb-tbody').innerHTML = gs.pbs.map(p=>
+    `<tr><td>${p.route}</td><td>${p.score}</td><td>${p.time}</td></tr>`).join('')
+    || '<tr><td colspan="3" style="color:var(--text-dim)">No runs yet!</td></tr>';
+  document.getElementById('worst-tbody').innerHTML = gs.worsts.map(p=>
+    `<tr><td>${p.route}</td><td>${p.score}</td><td>${p.time}</td></tr>`).join('')
+    || '<tr><td colspan="3" style="color:var(--text-dim)">No runs yet!</td></tr>';
+  renderMilestoneBadges();
 }
-
-const milestonesDefs = [
-  {id:'e_expert', name:'Elizabeth Expert', desc:'Win 3 E-line missions', icon:'🟣', check:()=>(gameState.milestones.e_wins||0)>=3},
-  {id:'speed_demon', name:'Speed Demon', desc:'Complete in under 10 min', icon:'⚡', check:()=>(gameState.milestones.fast_wins||0)>=1},
-  {id:'miser', name:'Budget Commuter', desc:'Fare under £3 three times', icon:'💸', check:()=>(gameState.milestones.cheap_wins||0)>=3},
-  {id:'streak5', name:'5-Day Streak', desc:'Win 5 missions in a row', icon:'🔥', check:()=>gameState.streak>=5},
-  {id:'collector', name:'Card Collector', desc:'Collect 10 cards', icon:'🃏', check:()=>gameState.collection.length>=10},
-  {id:'centurion', name:'Centurion', desc:'Score under 100', icon:'💯', check:()=>(gameState.milestones.sub100||0)>=1},
+const milestoneDefs = [
+  {id:'streak3', name:'3-Win Streak',  icon:'🔥', check:()=>gs.streak>=3},
+  {id:'collector',name:'5 Cards',      icon:'🃏', check:()=>gs.collection.length>=5},
+  {id:'bargain',  name:'Budget Hero',  icon:'💸', check:()=>(gs.milestones.cheap_wins||0)>=2},
+  {id:'speedster',name:'Speed Demon',  icon:'⚡', check:()=>(gs.milestones.fast_wins||0)>=1},
+  {id:'streak5',  name:'5-Win Streak', icon:'💥', check:()=>gs.streak>=5},
+  {id:'tenner',   name:'10 Cards',     icon:'🌟', check:()=>gs.collection.length>=10},
 ];
-
 function checkMilestones() {
-  milestonesDefs.forEach(m => {
-    if (!gameState.milestones['achieved_'+m.id] && m.check()) {
-      gameState.milestones['achieved_'+m.id] = true;
-      showEventBrief('🏅', `Achievement unlocked: ${m.name}!`);
+  milestoneDefs.forEach(m=>{
+    if (!gs.milestones['done_'+m.id] && m.check()) {
+      gs.milestones['done_'+m.id]=true;
+      showEventBrief('🏅','Achievement: '+m.name+'!');
     }
   });
 }
-
-function renderMilestonesBadges() {
+function renderMilestoneBadges() {
   const el = document.getElementById('milestones-area');
+  if (el) el.innerHTML = milestoneDefs.filter(m=>gs.milestones['done_'+m.id])
+    .map(m=>`<div class="milestone-badge">${m.icon} ${m.name}</div>`).join('');
   const ml = document.getElementById('milestone-list');
-  const achieved = milestonesDefs.filter(m=>gameState.milestones['achieved_'+m.id]);
-  
-  if (el) el.innerHTML = achieved.map(m => 
-    `<div class="milestone-badge">${m.icon} ${m.name}</div>`
-  ).join('');
-  
-  if (ml) ml.innerHTML = milestonesDefs.map(m => {
-    const done = gameState.milestones['achieved_'+m.id];
+  if (ml) ml.innerHTML = milestoneDefs.map(m=>{
+    const done=gs.milestones['done_'+m.id];
     return `<div class="milestone-badge" style="${done?'':'background:var(--surface2);color:var(--text-dim)'}">
-      ${m.icon} ${m.name} ${done?'✓':'🔒'} <span style="font-weight:normal;font-size:12px">${m.desc}</span>
-    </div>`;
-  }).join('');
+      ${m.icon} ${m.name} ${done?'✓':'🔒'}</div>`;}).join('');
 }
-
 function renderGallery() {
-  const gg = document.getElementById('gallery-grid');
-  const gc = document.getElementById('gallery-count');
-  const gp = document.getElementById('gallery-progress');
-  
-  const owned = gameState.collection.length;
-  const total = cardDefs.length;
-  
-  if (gc) gc.textContent = owned;
-  if (gp) gp.style.width = `${(owned/total)*100}%`;
-  
-  if (!gg) return;
-  gg.innerHTML = '';
-  
-  cardDefs.forEach(def => {
-    const has = gameState.collection.some(c=>c.id===def.id);
-    const el = document.createElement('div');
-    if (has) {
-      el.className = 'tube-card';
-      el.style.background = `linear-gradient(135deg,${def.color}AA,${def.color}33)`;
-      el.innerHTML = `<div class="card-line" style="color:${def.color}">${lineNames[def.line]?.substring(0,3)||def.line}</div>
+  const gg=document.getElementById('gallery-grid');
+  const gc=document.getElementById('gallery-count');
+  const gp=document.getElementById('gallery-progress');
+  const owned=gs.collection.length, total=cardDefs.length;
+  if(gc) gc.textContent=owned;
+  if(gp) gp.style.width=`${(owned/total)*100}%`;
+  if(!gg) return;
+  gg.innerHTML='';
+  cardDefs.forEach(def=>{
+    const has=gs.collection.some(c=>c.id===def.id);
+    const el=document.createElement('div');
+    if(has){
+      el.className='tube-card';
+      el.style.background=`linear-gradient(135deg,${def.color}AA,${def.color}33)`;
+      el.innerHTML=`<div class="card-line" style="color:${def.color}">${def.line}</div>
         <div class="card-name" style="font-size:9px">${def.name}</div>
         <div class="card-stats">⚡${def.stats.speed}</div>`;
     } else {
-      el.className = 'gallery-slot';
-      el.innerHTML = '?';
-      el.title = 'Not yet collected';
+      el.className='gallery-slot'; el.innerHTML='?';
     }
     gg.appendChild(el);
   });
 }
-
 function renderMarket() {
-  const ma = document.getElementById('market-area');
-  if (!ma) return;
-  
-  const available = cardDefs.filter(c => !gameState.collection.some(gc=>gc.id===c.id));
-  const forSale = available.slice(0,5);
-  
-  if (forSale.length === 0) {
-    ma.innerHTML = '<p style="color:var(--text-dim)">You have all available cards!</p>';
-    return;
-  }
-  
-  ma.innerHTML = forSale.map(c => `
-    <div class="market-card" onclick="buyCard('${c.id}')">
-      <div style="width:40px;height:50px;border-radius:8px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:18px">
-        ${lineNames[c.line]?.substring(0,1)||'?'}
-      </div>
-      <div class="market-card-info">
-        <h4>${c.name}</h4>
-        <p>Line ${c.line} · ${c.ability}</p>
-      </div>
-      <div class="market-price">£${(8 + cardDefs.indexOf(c)%5).toFixed(0)}</div>
-    </div>
-  `).join('');
+  const ma=document.getElementById('market-area');
+  if(!ma) return;
+  const avail=cardDefs.filter(c=>!gs.collection.some(gc=>gc.id===c.id)).slice(0,4);
+  if(!avail.length){ma.innerHTML='<p style="color:var(--text-dim);font-size:13px">All cards collected!</p>';return;}
+  ma.innerHTML=avail.map(c=>{
+    const price=6+cardDefs.indexOf(c)%5;
+    return `<div class="market-card" onclick="buyCard('${c.id}')">
+      <div style="width:36px;height:44px;border-radius:8px;background:${c.color};display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff">${c.line}</div>
+      <div class="market-card-info"><h4>${c.name}</h4><p>${c.ability}</p></div>
+      <div class="market-price">£${price}</div></div>`; }).join('');
 }
-
 function buyCard(id) {
-  const def = cardDefs.find(d=>d.id===id);
-  if (!def) return;
-  const price = 8 + cardDefs.indexOf(def)%5;
-  if (gameState.oyster < price) {
-    showEventBrief('💸', `Need £${price} to buy this card!`);
-    return;
-  }
-  gameState.oyster -= price;
-  addCard(id);
-  updateOysterDisplay();
-  renderCards();
-  renderGallery();
-  renderMarket();
-  saveState();
-  playSound('cha');
-  showEventBrief('🃏', `Bought ${def.name}!`);
+  const def=cardDefs.find(d=>d.id===id);
+  if(!def) return;
+  const price=6+cardDefs.indexOf(def)%5;
+  if(gs.oyster<price){showEventBrief('💸',`Need £${price}!`);return;}
+  gs.oyster-=price; addCard(id); updateOysterDisplay();
+  renderCards(); renderGallery(); renderMarket(); save(); playSound('cha');
+  showEventBrief('🃏',`Bought ${def.name}!`);
 }
 
 // ============================================================
 // SHARE
 // ============================================================
 function shareChallenge() {
-  if (!missionState.start) {
-    showEventBrief('⚠️','Spin a mission first!');
-    return;
-  }
-  const seed = `${missionState.start}-${missionState.end}-${missionState.goal.type}`;
-  const url = `${window.location.href.split('?')[0]}?seed=${btoa(seed)}`;
-  const sc = document.getElementById('share-code');
-  sc.style.display = 'block';
-  sc.innerHTML = `<div style="background:var(--surface2);border-radius:10px;padding:8px;font-size:12px;word-break:break-all;margin-bottom:6px">${url}</div>
-    <button class="btn-small btn-secondary" onclick="navigator.clipboard.writeText('${url}').then(()=>showEventBrief('📋','Copied!'))">
-      📋 Copy Link
-    </button>`;
+  if(!ms.start){showEventBrief('⚠️','Spin a mission first!');return;}
+  const seed=btoa(`${ms.start}-${ms.end}-${ms.goal.type}`);
+  const url=`${window.location.href.split('?')[0]}?seed=${seed}`;
+  const sc=document.getElementById('share-code');
+  sc.innerHTML=`<div style="background:var(--surface2);border-radius:8px;padding:8px;font-size:11px;word-break:break-all;margin-bottom:6px">${url}</div>
+    <button class="btn-small btn-secondary" onclick="navigator.clipboard.writeText('${url}').then(()=>showEventBrief('📋','Copied!'))">📋 Copy</button>`;
 }
-
 function shareResult() {
-  const text = `🚇 Tube Quest Score: ${document.getElementById('result-score').textContent}\n${document.getElementById('result-time').textContent}\n${document.getElementById('result-fare').textContent}\n🔥 Streak: ${gameState.streak}\nPlay at: ${window.location.href}`;
-  if (navigator.share) {
-    navigator.share({title:'Tube Quest', text}).catch(()=>{});
-  } else {
-    navigator.clipboard.writeText(text).then(()=>showEventBrief('📋','Result copied!')).catch(()=>{});
-  }
+  const txt=`🚇 Tube Quest!\nScore: ${document.getElementById('result-score').textContent}\n${document.getElementById('result-time').textContent}\n${document.getElementById('result-fare').textContent}\n🔥 Streak: ${gs.streak}\n${window.location.href}`;
+  if(navigator.share) navigator.share({title:'Tube Quest',text:txt}).catch(()=>{});
+  else navigator.clipboard.writeText(txt).then(()=>showEventBrief('📋','Copied!')).catch(()=>{});
 }
 
 // ============================================================
 // UI HELPERS
 // ============================================================
 function updateOysterDisplay() {
-  document.getElementById('oyster-display').textContent = `🃏 £${gameState.oyster.toFixed(2)}`;
-  document.getElementById('streak-display').textContent = `🔥 ${gameState.streak}`;
-  
-  // Low balance warning
-  if (gameState.oyster < 5) {
-    document.getElementById('oyster-display').style.background = 'var(--tfl-red)';
-    document.getElementById('oyster-display').style.color = '#fff';
-  } else {
-    document.getElementById('oyster-display').style.background = 'var(--oyster-teal)';
-    document.getElementById('oyster-display').style.color = '#000';
-  }
-  
-  // Auto top-up if broke
-  if (gameState.oyster < 3) {
-    gameState.oyster += 20;
-    showEventBrief('💳', 'Auto top-up! +£20 on your Oyster');
-    updateOysterDisplay();
-    saveState();
-  }
+  document.getElementById('oyster-display').textContent=`🃏 £${gs.oyster.toFixed(2)}`;
+  document.getElementById('streak-display').textContent=`🔥 ${gs.streak}`;
+  const oc=document.getElementById('oyster-display');
+  oc.style.background=gs.oyster<5?'var(--tfl-red)':'var(--oyster-teal)';
+  oc.style.color=gs.oyster<5?'#fff':'#000';
+  if(gs.oyster<3){gs.oyster+=20;showEventBrief('💳','Auto top-up! +£20');updateOysterDisplay();save();}
 }
-
 function showTab(name) {
-  ['game','cards','scores','gallery'].forEach(t => {
-    document.getElementById(`tab-content-${t}`).style.display = t===name?'block':'none';
-    document.getElementById(`tab-${t}`).classList.toggle('active', t===name);
+  ['game','cards','scores','gallery'].forEach(t=>{
+    document.getElementById(`tab-content-${t}`).style.display=t===name?'block':'none';
+    document.getElementById(`tab-${t}`).classList.toggle('active',t===name);
   });
-  if (name==='cards') renderCards();
-  if (name==='scores') updateScoresTab();
-  if (name==='gallery') { renderGallery(); renderMarket(); }
+  if(name==='cards') renderCards();
+  if(name==='scores') updateScoresTab();
+  if(name==='gallery'){renderGallery();renderMarket();}
 }
-
-function closeTutorial() {
+function closeTutorial(){
   document.getElementById('modal-overlay').classList.add('hidden');
-  gameState.tutorialSeen = true;
-  saveState();
+  gs.tutorialSeen=true; save();
 }
 
 // ============================================================
 // CONTROLS
 // ============================================================
-document.getElementById('btn-mute').addEventListener('click', () => {
-  gameState.muted = !gameState.muted;
-  document.getElementById('btn-mute').textContent = gameState.muted ? '🔇' : '🔊';
-  saveState();
+document.getElementById('btn-mute').addEventListener('click',()=>{
+  gs.muted=!gs.muted;
+  document.getElementById('btn-mute').textContent=gs.muted?'🔇':'🔊'; save();
+});
+document.getElementById('btn-slow').addEventListener('click',()=>{
+  gs.slowMode=!gs.slowMode;
+  const b=document.getElementById('btn-slow');
+  b.style.background=gs.slowMode?'var(--oyster-teal)':'var(--surface2)';
+  b.style.color=gs.slowMode?'#000':'var(--text)';
+  showEventBrief(gs.slowMode?'🐢':'🐇',gs.slowMode?'Slow Mode ON':'Slow Mode OFF'); save();
+});
+document.getElementById('btn-fullscreen').addEventListener('click',()=>{
+  if(!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+  else document.exitFullscreen().catch(()=>{});
 });
 
-document.getElementById('btn-slow').addEventListener('click', () => {
-  gameState.slowMode = !gameState.slowMode;
-  document.getElementById('btn-slow').style.background = gameState.slowMode ? 'var(--oyster-teal)' : 'var(--surface2)';
-  document.getElementById('btn-slow').style.color = gameState.slowMode ? '#000' : 'var(--text)';
-  showEventBrief(gameState.slowMode?'🐢':'🐇', gameState.slowMode?'Slow Mode ON - timers doubled':'Slow Mode OFF');
-  saveState();
+// Pinch/pan basic support
+let mapScale=1, mapOffX=0, mapOffY=0, isPanning=false, panStart={x:0,y:0};
+const mc=document.getElementById('map-container');
+mc.addEventListener('wheel',(e)=>{
+  e.preventDefault();
+  mapScale = Math.max(0.8,Math.min(3, mapScale-(e.deltaY*0.001)));
+  applyMapTransform();
+},{passive:false});
+mc.addEventListener('mousedown',(e)=>{
+  if(e.target.closest('.station-dot')) return;
+  isPanning=true; panStart={x:e.clientX-mapOffX, y:e.clientY-mapOffY};
 });
+mc.addEventListener('mousemove',(e)=>{
+  if(!isPanning) return;
+  mapOffX=e.clientX-panStart.x; mapOffY=e.clientY-panStart.y;
+  applyMapTransform();
+});
+mc.addEventListener('mouseup',()=>isPanning=false);
+mc.addEventListener('mouseleave',()=>isPanning=false);
 
-document.getElementById('btn-fullscreen').addEventListener('click', () => {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(()=>{});
-    document.getElementById('btn-fullscreen').textContent = '⛶';
-  } else {
-    document.exitFullscreen().catch(()=>{});
-    document.getElementById('btn-fullscreen').textContent = '⛶';
+let lastTouchDist=0;
+mc.addEventListener('touchstart',(e)=>{
+  if(e.touches.length===2){
+    lastTouchDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
   }
-});
-
-// URL seed
-function checkURLSeed() {
-  const params = new URLSearchParams(window.location.search);
-  const seed = params.get('seed');
-  if (seed) {
-    try {
-      const decoded = atob(seed);
-      const [start, end, goalType] = decoded.split('-');
-      if (stations[start] && stations[end]) {
-        missionState.start = start;
-        missionState.end = end;
-        missionState.goal = missionGoals.find(g=>g.type===goalType) || missionGoals[0];
-        missionState.active = true;
-        missionState.playerPath = [start];
-        gameState.oyster -= 20;
-        updateMissionCard();
-        updateMap();
-        updateBuildSection();
-        document.getElementById('phase-banner').textContent = '🗺️ BUILD YOUR ROUTE (Challenge!)';
-        document.getElementById('build-section-map').style.display = 'block';
-        showEventBrief('🎯','Friend\'s challenge loaded! Build your route!');
-        updateOysterDisplay();
-      }
-    } catch(e) {}
+},{passive:true});
+mc.addEventListener('touchmove',(e)=>{
+  if(e.touches.length===2){
+    e.preventDefault();
+    const dist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+    mapScale=Math.max(0.8,Math.min(3,mapScale*(dist/lastTouchDist)));
+    lastTouchDist=dist;
+    applyMapTransform();
   }
+},{passive:false});
+function applyMapTransform(){
+  document.getElementById('tube-map').style.transform=`translate(${mapOffX}px,${mapOffY}px) scale(${mapScale})`;
+  document.getElementById('tube-map').style.transformOrigin='center center';
+}
+
+// ============================================================
+// URL SEED
+// ============================================================
+function checkURLSeed(){
+  const seed=new URLSearchParams(window.location.search).get('seed');
+  if(!seed) return;
+  try {
+    const [start,end,gtype]=atob(seed).split('-');
+    if(allStations[start]&&allStations[end]){
+      ms.start=start; ms.end=end; ms.goal=missionGoals.find(g=>g.type===gtype)||missionGoals[0];
+      ms.active=true; ms.playerPath=[start];
+      gs.oyster-=20; updateOysterDisplay(); updateMissionCard(); updateMap();
+      document.getElementById('build-section').style.display='block';
+      document.getElementById('build-section-map').style.display='block';
+      document.getElementById('phase-banner').textContent='🎯 CHALLENGE LOADED!';
+      showEventBrief('🎯',"Friend's challenge loaded!");
+    }
+  }catch(e){}
 }
 
 // ============================================================
 // INIT
 // ============================================================
-window.addEventListener('load', () => {
-  loadState();
+window.addEventListener('load',()=>{
+  load();
   buildGraph();
   buildMap();
   updateOysterDisplay();
-  renderCards();
-  updateScoresTab();
-  renderGallery();
-  
-  // Restore UI state
-  if (gameState.muted) document.getElementById('btn-mute').textContent = '🔇';
-  if (gameState.slowMode) {
-    document.getElementById('btn-slow').style.background = 'var(--oyster-teal)';
-    document.getElementById('btn-slow').style.color = '#000';
+  renderCards(); updateScoresTab(); renderGallery();
+  if(gs.muted) document.getElementById('btn-mute').textContent='🔇';
+  if(gs.slowMode){
+    const b=document.getElementById('btn-slow');
+    b.style.background='var(--oyster-teal)'; b.style.color='#000';
   }
-  
   checkURLSeed();
-  
-  setTimeout(() => {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'flex';
-    
-    if (!gameState.tutorialSeen) {
-      document.getElementById('modal-overlay').classList.remove('hidden');
-    }
-  }, 1200);
+  setTimeout(()=>{
+    document.getElementById('loading').style.display='none';
+    document.getElementById('app').style.display='flex';
+    if(!gs.tutorialSeen) document.getElementById('modal-overlay').classList.remove('hidden');
+  },1000);
 });
 </script>
 </body>
