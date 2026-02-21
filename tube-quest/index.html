@@ -357,7 +357,10 @@ button:focus-visible{outline:3px solid var(--oyster-teal);outline-offset:2px;}
                 <div class="reel" id="reel-goal">🎯<br><span style="font-size:9px">???</span></div></div>
             </div>
             <button class="btn-big btn-spin" id="btn-spin" onclick="spinMission()">
-              🎰 SPIN! (£20 BET)
+              🎰 SPIN! (£5 BET)
+            </button>
+            <button class="btn-big btn-secondary" onclick="topUp()" style="font-size:20px;margin-top:0">
+              💳 TOP UP (+£20)
             </button>
           </div>
 
@@ -1080,10 +1083,10 @@ function getOuterStations() {
 
 function spinMission() {
   if (ms.travelling) return;
-  if (gs.oyster < 20) { showEventBrief('💸','Not enough Oyster! Need £20'); return; }
+  if (gs.oyster < 5) { showEventBrief('💸','Not enough Oyster! Need £5 — tap TOP UP'); return; }
 
   playSound('spin');
-  gs.oyster -= 20;
+  gs.oyster -= 5;
   updateOysterDisplay();
   ms = { active:false, start:null, end:null, goal:null, playerPath:[], travelling:false,
     startTime:null, elapsed:0, timerInterval:null, playerResult:null, direction:null };
@@ -1611,13 +1614,21 @@ function shareResult() {
 // ============================================================
 // UI HELPERS
 // ============================================================
+function topUp() {
+  gs.oyster += 20;
+  updateOysterDisplay();
+  save();
+  playSound('cha');
+  showEventBrief('💳', '+£20 added to your Oyster!');
+}
+
 function updateOysterDisplay() {
   document.getElementById('oyster-display').textContent=`🃏 £${gs.oyster.toFixed(2)}`;
   document.getElementById('streak-display').textContent=`🔥 ${gs.streak}`;
   const oc=document.getElementById('oyster-display');
   oc.style.background=gs.oyster<5?'var(--tfl-red)':'var(--oyster-teal)';
   oc.style.color=gs.oyster<5?'#fff':'#000';
-  if(gs.oyster<3){gs.oyster+=20;showEventBrief('💳','Auto top-up! +£20');updateOysterDisplay();save();}
+  if(gs.oyster<5){gs.oyster+=20;showEventBrief('💳','Auto top-up! +£20 added');updateOysterDisplay();save();}
 }
 function showTab(name) {
   ['game','cards','scores','gallery'].forEach(t=>{
