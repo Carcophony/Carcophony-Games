@@ -124,7 +124,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 5px 6px;
+  padding: 3px 4px;
   cursor: pointer;
   position: relative;
   transition: border-color 0.12s, background 0.12s, transform 0.1s, opacity 0.15s;
@@ -152,19 +152,18 @@ body {
   border-color: rgba(201,168,76,0.4);
   cursor: default;
 }
-.card-rank-top { font-size: 13px; font-weight: 700; line-height: 1; }
-.card-suit-mid { font-size: 22px; text-align: center; line-height: 1; margin: auto 0; }
-.card-rank-bot { font-size: 13px; font-weight: 700; line-height: 1; text-align: right; transform: rotate(180deg); display: inline-block; }
+.card-rank-top { font-size: 10px; font-weight: 700; line-height: 1; }
+.card-suit-mid { font-size: 15px; text-align: center; line-height: 1; margin: auto 0; }
+.card-rank-bot { font-size: 10px; font-weight: 700; line-height: 1; text-align: right; transform: rotate(180deg); display: inline-block; }
 .card-red { color: var(--red); }
 .card-black { color: #1a1a1a; }
 
-/* Deal pool — 3x3 grid */
+/* Deal pool — single row, compact cards */
 .deal-pool {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
-  gap: 5px;
+  gap: 3px;
   margin-bottom: 16px;
-  overflow-x: auto;
 }
 
 /* Hand slots */
