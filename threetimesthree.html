@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THREE TIMES THREE</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --green: #1A5C38;
+  --gold: #C9A84C;
+  --red: #c41e1e;
+  --bg: #f7f5f0;
+  --card-bg: #ffffff;
+  --text: #1a1a1a;
+  --text-muted: #666;
+  --border: #ddd;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 0 60px;
+}
+
+/* Header */
+.header {
+  width: 100%;
+  background: var(--green);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.header-title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  font-family: Georgia, serif;
+  line-height: 1.1;
+}
+.header-sub {
+  font-size: 10px;
+  color: rgba(201,168,76,0.6);
+  letter-spacing: 0.08em;
+}
+.header-date {
+  font-size: 11px;
+  color: rgba(201,168,76,0.7);
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+.container {
+  width: 100%;
+  max-width: 440px;
+  padding: 0 14px;
+}
+
+/* Instructions */
+.instructions {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+}
+.instructions strong { color: var(--text); }
+
+/* Rankings */
+.rankings {
+  background: var(--green);
+  border-radius: 10px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+.rank-pill {
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 99px;
+  background: rgba(255,255,255,0.1);
+  color: rgba(201,168,76,0.8);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+.rank-pill.active {
+  background: var(--gold);
+  color: var(--green);
+  font-weight: 700;
+}
+.rank-arrow { color: rgba(201,168,76,0.35); font-size: 11px; }
+
+/* Section labels */
+.section-label {
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5px 6px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.12s, background 0.12s, transform 0.1s, opacity 0.15s;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.07);
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  aspect-ratio: 2/3;
+}
+.card:active { transform: scale(0.94); }
+.card.selected {
+  border: 2.5px solid var(--gold);
+  background: #fffdf0;
+  box-shadow: 0 2px 10px rgba(201,168,76,0.3);
+  transform: translateY(-3px);
+}
+.card.placed {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+.card.locked { cursor: default; }
+.card.locked:active { transform: none; }
+.card.dealer-style {
+  background: #fffdf4;
+  border-color: rgba(201,168,76,0.4);
+  cursor: default;
+}
+.card-rank-top { font-size: 13px; font-weight: 700; line-height: 1; }
+.card-suit-mid { font-size: 22px; text-align: center; line-height: 1; margin: auto 0; }
+.card-rank-bot { font-size: 13px; font-weight: 700; line-height: 1; text-align: right; transform: rotate(180deg); display: inline-block; }
+.card-red { color: var(--red); }
+.card-black { color: #1a1a1a; }
+
+/* Deal pool — horizontal scroll row */
+.deal-pool {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 5px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+}
+
+/* Hand slots */
+.hands-area {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.hand-slot {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  transition: border-color 0.15s, background 0.15s;
+}
+.hand-slot.active-target {
+  border-color: var(--gold);
+  background: #fffdf0;
+}
+.hand-slot.complete {
+  border-color: var(--green);
+}
+.hand-slot.won { background: #e8f4ed; border-color: var(--green); }
+.hand-slot.lost { background: #fef0f0; border-color: #e05555; }
+.hand-slot.push { background: #f5f3ea; border-color: var(--gold); }
+
+.hand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.hand-name {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.hand-result-badge {
+  font-size: 12px;
+  font-weight: 700;
+  display: none;
+}
+.hand-slot.won .hand-result-badge { display: block; color: var(--green); }
+.hand-slot.lost .hand-result-badge { display: block; color: #c03030; }
+.hand-slot.push .hand-result-badge { display: block; color: #8a7030; }
+
+.hand-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.hand-card-slot {
+  background: var(--bg);
+  border: 1.5px dashed var(--border);
+  border-radius: 8px;
+  aspect-ratio: 2/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.hand-card-slot:hover { border-color: #bbb; }
+.hand-card-slot.occupied { border: none; background: none; padding: 0; cursor: default; }
+.hand-card-slot.target {
+  border-color: var(--gold);
+  background: #fffdf0;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { border-color: var(--gold); }
+  50% { border-color: var(--gold-light, #f0d98a); }
+}
+
+.slot-hint { font-size: 18px; color: #ccc; }
+
+.hand-eval {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--green);
+  font-family: Georgia, serif;
+  min-height: 18px;
+}
+
+/* Dealer area */
+.dealer-area {
+  display: none;
+  margin-bottom: 14px;
+}
+.dealer-area.show { display: block; }
+
+.dealer-hands {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dealer-hand {
+  background: #fffdf4;
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.dealer-hand-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.dealer-hand-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #8a7030;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+.dealer-hand-eval {
+  font-size: 13px;
+  font-weight: 700;
+  color: #5a4020;
+  font-family: Georgia, serif;
+}
+.dealer-hand-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+/* Msg */
+.msg {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-bottom: 10px;
+  min-height: 18px;
+  line-height: 1.4;
+}
+
+/* Buttons */
+.btn-row { display: flex; gap: 8px; margin-bottom: 14px; }
+.btn {
+  flex: 1; padding: 14px;
+  border-radius: 8px;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer; border: none;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+.btn-primary { background: var(--green); color: var(--gold); }
+.btn-secondary { background: white; color: var(--green); border: 1.5px solid var(--green); }
+
+/* Verdict */
+.verdict {
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  margin-bottom: 12px;
+  display: none;
+}
+.verdict.show { display: block; }
+.verdict.win { background: #e8f4ed; border: 1.5px solid var(--green); }
+.verdict.loss { background: #fef0f0; border: 1.5px solid #e05555; }
+.verdict.push { background: #f5f3ea; border: 1.5px solid var(--gold); }
+.verdict-icon { font-size: 36px; margin-bottom: 6px; }
+.verdict-text { font-size: 22px; font-weight: 700; font-family: Georgia, serif; }
+.verdict.win .verdict-text { color: var(--green); }
+.verdict.loss .verdict-text { color: #c03030; }
+.verdict.push .verdict-text { color: #8a7030; }
+.verdict-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+/* Share */
+.share-btn {
+  width: 100%; padding: 16px;
+  background: var(--gold); color: var(--green);
+  border: none; border-radius: 8px;
+  font-size: 16px; font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer; margin-bottom: 6px;
+  display: none;
+  transition: opacity 0.2s;
+}
+.share-btn.show { display: block; }
+.share-btn:active { opacity: 0.85; }
+.share-confirm { font-size: 13px; color: var(--green); text-align: center; height: 18px; font-weight: 600; }
+
+/* Hidden dealer back cards */
+.dealer-hidden-area {
+  margin-bottom: 14px;
+}
+.dealer-hidden-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.dealer-back {
+  background: var(--green);
+  border: 1.5px solid rgba(201,168,76,0.3);
+  border-radius: 8px;
+  aspect-ratio: 2/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: rgba(201,168,76,0.5);
+}
+.dealer-hidden-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  margin-top: 6px;
+  font-style: italic;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">THREE TIMES THREE</div>
+    <div class="header-sub">Three Card Brag · Beat the Dealer</div>
+  </div>
+  <div class="header-date" id="header-date"></div>
+</div>
+
+<div class="container">
+
+  <div class="instructions">
+    <strong>Tap a card to pick it up, tap a hand slot to place it.</strong> Fill all three hands with 3 cards each. Beat the dealer in 2 of 3 hands to win.
+  </div>
+
+  <div class="rankings" id="rankings">
+    <span class="rank-pill">Prial</span>
+    <span class="rank-arrow">›</span>
+    <span class="rank-pill">Running flush</span>
+    <span class="rank-arrow">›</span>
+    <span class="rank-pill">Run</span>
+    <span class="rank-arrow">›</span>
+    <span class="rank-pill">Flush</span>
+    <span class="rank-arrow">›</span>
+    <span class="rank-pill">Pair</span>
+    <span class="rank-arrow">›</span>
+    <span class="rank-pill">High card</span>
+  </div>
+
+  <div class="section-label">Your 9 cards — tap to pick up</div>
+  <div class="deal-pool" id="deal-pool"></div>
+
+  <div class="section-label">Your three hands — tap a slot to place</div>
+  <div class="hands-area" id="hands-area"></div>
+
+  <p class="msg" id="msg">Tap any card to start building your hands</p>
+
+  <div class="btn-row">
+    <button class="btn btn-primary" id="score-btn" onclick="scoreHands()" disabled>Score all three hands</button>
+    <button class="btn btn-secondary" onclick="resetGame()">Reset</button>
+  </div>
+
+  <!-- Dealer hidden -->
+  <div class="dealer-hidden-area" id="dealer-hidden">
+    <div class="section-label">Dealer's hands — revealed when you score</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+      <div>
+        <div class="dealer-hidden-grid">
+          <div class="dealer-back">♠</div>
+          <div class="dealer-back">♥</div>
+          <div class="dealer-back">♣</div>
+        </div>
+      </div>
+      <div>
+        <div class="dealer-hidden-grid">
+          <div class="dealer-back">♦</div>
+          <div class="dealer-back">♠</div>
+          <div class="dealer-back">♥</div>
+        </div>
+      </div>
+      <div>
+        <div class="dealer-hidden-grid">
+          <div class="dealer-back">♣</div>
+          <div class="dealer-back">♦</div>
+          <div class="dealer-back">♠</div>
+        </div>
+      </div>
+    </div>
+    <div class="dealer-hidden-label">Commit your hands first</div>
+  </div>
+
+  <!-- Dealer revealed -->
+  <div class="dealer-area" id="dealer-area">
+    <div class="section-label">Dealer's hands</div>
+    <div class="dealer-hands" id="dealer-hands"></div>
+  </div>
+
+  <div class="verdict" id="verdict">
+    <div class="verdict-icon" id="verdict-icon"></div>
+    <div class="verdict-text" id="verdict-text"></div>
+    <div class="verdict-sub" id="verdict-sub"></div>
+  </div>
+
+  <button class="share-btn" id="share-btn" onclick="shareResult()">📋 Copy result for X</button>
+  <div class="share-confirm" id="share-confirm"></div>
+
+</div>
+
+<script>
+const SUITS = [
+  { sym:'♠', name:'S', red:false },
+  { sym:'♥', name:'H', red:true  },
+  { sym:'♦', name:'D', red:true  },
+  { sym:'♣', name:'C', red:false },
+];
+const RANKS = [
+  { val:1,  d:'A',  s:14 },
+  { val:2,  d:'2',  s:2  },
+  { val:3,  d:'3',  s:3  },
+  { val:4,  d:'4',  s:4  },
+  { val:5,  d:'5',  s:5  },
+  { val:6,  d:'6',  s:6  },
+  { val:7,  d:'7',  s:7  },
+  { val:8,  d:'8',  s:8  },
+  { val:9,  d:'9',  s:9  },
+  { val:10, d:'10', s:10 },
+  { val:11, d:'J',  s:11 },
+  { val:12, d:'Q',  s:12 },
+  { val:13, d:'K',  s:13 },
+];
+const HAND_NAMES  = ['Prial','Running flush','Run','Flush','Pair','High card'];
+const HAND_PTS    = [100, 80, 60, 40, 20, 10];
+const HAND_SCORES = [600000,500000,400000,300000,200000,100000];
+
+let playerHand  = [];
+let dealerHand  = [];
+let hands       = [[],[],[]];   // 3 hands of up to 3 cards each (card indices)
+let selected    = null;         // index in playerHand currently picked up
+let scored      = false;
+let results     = null;
+
+function dateStr() {
+  const d = new Date();
+  return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+}
+function displayDate() {
+  return new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+}
+function seededRng(seed) {
+  let s = seed;
+  return function() {
+    s = (s * 1664525 + 1013904223) & 0xffffffff;
+    return (s >>> 0) / 0xffffffff;
+  };
+}
+function hashDate(str) {
+  let h = 0;
+  for (let i=0;i<str.length;i++) h=(Math.imul(31,h)+str.charCodeAt(i))|0;
+  return Math.abs(h);
+}
+function buildDeck() {
+  const d=[];
+  SUITS.forEach(s=>RANKS.forEach(r=>d.push({suit:s,rank:r})));
+  return d;
+}
+function seededShuffle(deck,rng) {
+  const a=[...deck];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(rng()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function evaluate(cards) {
+  const sorted=[...cards].sort((a,b)=>b.rank.s-a.rank.s);
+  const ranks=sorted.map(c=>c.rank.s);
+  const suits=cards.map(c=>c.suit.name);
+  const isFlush=suits.every(s=>s===suits[0]);
+  const sr=[...ranks].sort((a,b)=>a-b);
+  const isRun=(sr[2]-sr[1]===1&&sr[1]-sr[0]===1)||
+    JSON.stringify(sr)===JSON.stringify([2,3,14])||
+    JSON.stringify(sr)===JSON.stringify([12,13,14]);
+  const isPrial=ranks[0]===ranks[1]&&ranks[1]===ranks[2];
+  const isPair=ranks[0]===ranks[1]||ranks[1]===ranks[2]||ranks[0]===ranks[2];
+  let idx,score;
+  if(isPrial){idx=0;score=HAND_SCORES[0]+ranks[0]*10;}
+  else if(isRun&&isFlush){idx=1;score=HAND_SCORES[1]+ranks[0]*10;}
+  else if(isRun){idx=2;score=HAND_SCORES[2]+ranks[0]*10;}
+  else if(isFlush){idx=3;score=HAND_SCORES[3]+ranks[0]*10;}
+  else if(isPair){
+    const pr=ranks[0]===ranks[1]?ranks[0]:ranks[1]===ranks[2]?ranks[1]:ranks[0];
+    idx=4;score=HAND_SCORES[4]+pr*100+ranks[0];
+  }else{idx=5;score=HAND_SCORES[5]+ranks[0]*100+ranks[1]*10+ranks[2];}
+  return{idx,score,sorted};
+}
+
+function bestSplitOf9(cards) {
+  let best=null,bestScore=-1;
+  // Try all ways to split 9 cards into 3 hands of 3
+  const idx=[0,1,2,3,4,5,6,7,8];
+  for(let a=0;a<7;a++)for(let b=a+1;b<8;b++)for(let c=b+1;c<9;c++){
+    const h1=[cards[a],cards[b],cards[c]];
+    const rem1=idx.filter(i=>i!==a&&i!==b&&i!==c);
+    for(let d=0;d<rem1.length-2;d++)for(let e=d+1;e<rem1.length-1;e++)for(let f=e+1;f<rem1.length;f++){
+      const h2=[cards[rem1[d]],cards[rem1[e]],cards[rem1[f]]];
+      const rem2=rem1.filter((_,i)=>i!==d&&i!==e&&i!==f);
+      const h3=[cards[rem2[0]],cards[rem2[1]],cards[rem2[2]]];
+      const r1=evaluate(h1),r2=evaluate(h2),r3=evaluate(h3);
+      const total=r1.score+r2.score+r3.score;
+      if(total>bestScore){bestScore=total;best={h:[h1,h2,h3],r:[r1,r2,r3]};}
+    }
+  }
+  return best;
+}
+
+function cardHTML(card, extraClass='') {
+  const cl=card.suit.red?'card-red':'card-black';
+  return `<div class="card ${extraClass}">
+    <span class="card-rank-top ${cl}">${card.rank.d}</span>
+    <span class="card-suit-mid ${cl}">${card.suit.sym}</span>
+    <span class="card-rank-bot ${cl}">${card.rank.d}</span>
+  </div>`;
+}
+
+function isPlaced(cardIdx) {
+  return hands.some(h=>h.includes(cardIdx));
+}
+
+function handContaining(cardIdx) {
+  return hands.findIndex(h=>h.includes(cardIdx));
+}
+
+function renderAll() {
+  renderPool();
+  renderHands();
+  updateScoreBtn();
+}
+
+function renderPool() {
+  const pool=document.getElementById('deal-pool');
+  pool.innerHTML='';
+  playerHand.forEach((card,i)=>{
+    const placed=isPlaced(i);
+    const isSel=selected===i;
+    const div=document.createElement('div');
+    div.className='card'+(placed?' placed':'')+(isSel?' selected':'')+(scored?' locked':'');
+    const cl=card.suit.red?'card-red':'card-black';
+    div.innerHTML=
+      `<span class="card-rank-top ${cl}">${card.rank.d}</span>`+
+      `<span class="card-suit-mid ${cl}">${card.suit.sym}</span>`+
+      `<span class="card-rank-bot ${cl}">${card.rank.d}</span>`;
+    if(!placed&&!scored) div.onclick=()=>selectCard(i);
+    pool.appendChild(div);
+  });
+}
+
+function renderHands() {
+  const area=document.getElementById('hands-area');
+  area.innerHTML='';
+  hands.forEach((hand,hi)=>{
+    const slot=document.createElement('div');
+    const isComplete=hand.length===3;
+    let slotClass='hand-slot';
+    if(scored&&results){
+      const r=results.playerResults[hi];
+      const dr=results.dealerResults[hi];
+      if(r.score>dr.score) slotClass+=' won';
+      else if(r.score<dr.score) slotClass+=' lost';
+      else slotClass+=' push';
+    } else if(isComplete) slotClass+=' complete';
+    slot.className=slotClass;
+
+    const evalText = isComplete&&!scored ? evaluate(hand.map(i=>playerHand[i])) : null;
+
+    let resultBadge='';
+    if(scored&&results){
+      const r=results.playerResults[hi];
+      const dr=results.dealerResults[hi];
+      if(r.score>dr.score) resultBadge='<span class="hand-result-badge">✓ Won</span>';
+      else if(r.score<dr.score) resultBadge='<span class="hand-result-badge">✗ Lost</span>';
+      else resultBadge='<span class="hand-result-badge">— Push</span>';
+    }
+
+    slot.innerHTML=`
+      <div class="hand-header">
+        <span class="hand-name">Hand ${hi+1}</span>
+        ${resultBadge}
+      </div>
+      <div class="hand-cards" id="hand-cards-${hi}"></div>
+      <div class="hand-eval" id="hand-eval-${hi}">${evalText?HAND_NAMES[evalText.idx]+' · '+HAND_PTS[evalText.idx]+'pts':''}</div>
+    `;
+    area.appendChild(slot);
+
+    const cardsDiv=document.getElementById(`hand-cards-${hi}`);
+    for(let si=0;si<3;si++){
+      const cardWrapper=document.createElement('div');
+      if(si<hand.length){
+        // Card in this slot
+        const cardIdx=hand[si];
+        const card=playerHand[cardIdx];
+        cardWrapper.className='hand-card-slot occupied';
+        const cl=card.suit.red?'card-red':'card-black';
+        const cardDiv=document.createElement('div');
+        cardDiv.className='card'+(scored?' locked':'');
+        cardDiv.innerHTML=
+          `<span class="card-rank-top ${cl}">${card.rank.d}</span>`+
+          `<span class="card-suit-mid ${cl}">${card.suit.sym}</span>`+
+          `<span class="card-rank-bot ${cl}">${card.rank.d}</span>`;
+        if(!scored) cardDiv.onclick=()=>returnCard(hi,si);
+        cardWrapper.appendChild(cardDiv);
+      } else {
+        // Empty slot
+        cardWrapper.className='hand-card-slot'+(selected!==null?' target':'');
+        cardWrapper.innerHTML='<span class="slot-hint">+</span>';
+        if(selected!==null&&!scored) cardWrapper.onclick=()=>placeCard(hi);
+      }
+      cardsDiv.appendChild(cardWrapper);
+    }
+  });
+}
+
+function selectCard(i) {
+  if(scored) return;
+  selected = selected===i ? null : i;
+  updateMsg();
+  renderAll();
+}
+
+function placeCard(handIdx) {
+  if(selected===null||scored) return;
+  if(hands[handIdx].length>=3) return;
+  hands[handIdx].push(selected);
+  selected=null;
+  updateMsg();
+  renderAll();
+}
+
+function returnCard(handIdx, slotIdx) {
+  if(scored) return;
+  const cardIdx=hands[handIdx][slotIdx];
+  hands[handIdx].splice(slotIdx,1);
+  selected=cardIdx;
+  updateMsg();
+  renderAll();
+}
+
+function updateMsg() {
+  const msg=document.getElementById('msg');
+  const total=hands.reduce((s,h)=>s+h.length,0);
+  if(scored) { msg.textContent=''; return; }
+  if(selected!==null) {
+    const card=playerHand[selected];
+    msg.textContent=`${card.rank.d}${card.suit.sym} selected — tap an empty slot to place it`;
+  } else if(total===9) {
+    msg.textContent='All hands filled — ready to score!';
+  } else {
+    msg.textContent=`${total}/9 cards placed — tap a card to pick it up`;
+  }
+}
+
+function updateScoreBtn() {
+  const ready=hands.every(h=>h.length===3)&&!scored;
+  document.getElementById('score-btn').disabled=!ready;
+}
+
+function scoreHands() {
+  if(!hands.every(h=>h.length===3)||scored) return;
+  scored=true;
+
+  const dealerSplit=bestSplitOf9(dealerHand);
+  const playerResults=hands.map(h=>evaluate(h.map(i=>playerHand[i])));
+  const dealerResults=dealerSplit.r;
+  results={playerResults,dealerResults,dealerSplit};
+
+  let wins=0,losses=0,pushes=0;
+  playerResults.forEach((r,i)=>{
+    if(r.score>dealerResults[i].score) wins++;
+    else if(r.score<dealerResults[i].score) losses++;
+    else pushes++;
+  });
+
+  // Verdict
+  const verdict=document.getElementById('verdict');
+  const vIcon=document.getElementById('verdict-icon');
+  const vText=document.getElementById('verdict-text');
+  const vSub=document.getElementById('verdict-sub');
+  verdict.classList.add('show');
+
+  // Calculate total player points
+  const totalPts = playerResults.reduce((s,r)=>s+HAND_PTS[r.idx],0);
+  const dealerPts = dealerResults.reduce((s,r)=>s+HAND_PTS[r.idx],0);
+
+  if(wins>=2){
+    verdict.className='verdict show win';
+    vIcon.textContent='🏆';
+    vText.textContent='You beat the dealer!';
+    vSub.textContent=wins+' of 3 hands won · '+totalPts+'pts vs dealer '+dealerPts+'pts';
+  } else if(losses>=2){
+    verdict.className='verdict show loss';
+    vIcon.textContent='💸';
+    vText.textContent='Dealer wins this round';
+    vSub.textContent=losses+' of 3 hands lost · '+totalPts+'pts vs dealer '+dealerPts+'pts';
+  } else {
+    verdict.className='verdict show push';
+    vIcon.textContent='🤝';
+    vText.textContent='Split — it\'s a draw';
+    vSub.textContent='One hand each · '+totalPts+'pts vs dealer '+dealerPts+'pts';
+  }
+
+  // Show dealer
+  document.getElementById('dealer-hidden').style.display='none';
+  const dealerArea=document.getElementById('dealer-area');
+  dealerArea.classList.add('show');
+  const dealerHandsEl=document.getElementById('dealer-hands');
+  dealerHandsEl.innerHTML='';
+  dealerSplit.h.forEach((h,i)=>{
+    const r=dealerResults[i];
+    const pr=playerResults[i];
+    const won=pr.score>r.score,lost=pr.score<r.score;
+    const outcomeColor=won?'color:var(--green)':lost?'color:#c03030':'color:#8a7030';
+    const outcome=won?'Your win':'Dealer wins';
+    const div=document.createElement('div');
+    div.className='dealer-hand';
+    div.innerHTML=`
+      <div class="dealer-hand-header">
+        <span class="dealer-hand-label">Dealer hand ${i+1}</span>
+        <span class="dealer-hand-eval" style="${outcomeColor}">${HAND_NAMES[r.idx]} · ${HAND_PTS[r.idx]}pts</span>
+      </div>
+      <div class="dealer-hand-cards" id="dh-${i}"></div>
+    `;
+    dealerHandsEl.appendChild(div);
+    const dhCards=document.getElementById(`dh-${i}`);
+    r.sorted.forEach(card=>{
+      const cl=card.suit.red?'card-red':'card-black';
+      const cdiv=document.createElement('div');
+      cdiv.className='card dealer-style locked';
+      cdiv.innerHTML=
+        `<span class="card-rank-top ${cl}">${card.rank.d}</span>`+
+        `<span class="card-suit-mid ${cl}">${card.suit.sym}</span>`+
+        `<span class="card-rank-bot ${cl}">${card.rank.d}</span>`;
+      dhCards.appendChild(cdiv);
+    });
+  });
+
+  document.getElementById('score-btn').disabled=true;
+  document.getElementById('share-btn').classList.add('show');
+  updateMsg();
+  renderAll();
+}
+
+function shareResult() {
+  if(!results) return;
+  const {playerResults,dealerResults}=results;
+  let wins=0,losses=0;
+  const lines=playerResults.map((r,i)=>{
+    const dr=dealerResults[i];
+    const cards=r.sorted.map(c=>c.rank.d+c.suit.sym).join(' ');
+    let outcome;
+    if(r.score>dr.score){wins++;outcome='✓';}
+    else if(r.score<dr.score){losses++;outcome='✗';}
+    else{outcome='=';}
+    return `Hand ${i+1}: ${cards} — ${HAND_NAMES[r.idx]} ${HAND_PTS[r.idx]}pts ${outcome}`;
+  });
+  const won=wins>=2,push=wins===1&&losses===1;
+  const totalPtsShare = results.playerResults.reduce((s,r)=>s+HAND_PTS[r.idx],0);
+  const verdict=won?'Beat the dealer ✓':push?'Draw':'Dealer wins ✗';
+  const text=
+    'THREE TIMES THREE · '+displayDate()+'\n'+
+    lines.join('\n')+'\n'+
+    'Total: '+totalPtsShare+'pts · '+verdict+'\n'+
+    'carcophony.github.io/Carcophony-Games/threetimesthree.html';
+
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(()=>{
+      document.getElementById('share-confirm').textContent='✓ Copied — paste it on X';
+      setTimeout(()=>document.getElementById('share-confirm').textContent='',3000);
+    });
+  } else {
+    const ta=document.createElement('textarea');
+    ta.value=text;document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');document.body.removeChild(ta);
+    document.getElementById('share-confirm').textContent='✓ Copied — paste it on X';
+    setTimeout(()=>document.getElementById('share-confirm').textContent='',3000);
+  }
+}
+
+function resetGame() {
+  hands=[[],[],[]];
+  selected=null;
+  scored=false;
+  results=null;
+  document.getElementById('verdict').classList.remove('show');
+  document.getElementById('verdict').className='verdict';
+  document.getElementById('dealer-area').classList.remove('show');
+  document.getElementById('dealer-hidden').style.display='block';
+  document.getElementById('share-btn').classList.remove('show');
+  document.getElementById('share-confirm').textContent='';
+  document.getElementById('score-btn').disabled=true;
+  updateMsg();
+  renderAll();
+}
+
+function init() {
+  document.getElementById('header-date').textContent=displayDate();
+  const seed=hashDate(dateStr());
+  const rng=seededRng(seed);
+  const deck=seededShuffle(buildDeck(),rng);
+  playerHand=deck.slice(0,9);
+  dealerHand=deck.slice(9,18);
+  updateMsg();
+  renderAll();
+}
+
+init();
+</script>
+</body>
+</html>
